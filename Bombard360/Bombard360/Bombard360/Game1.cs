@@ -18,10 +18,16 @@ namespace Bombard360
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        GameplayState game;
+        private readonly int windowHeight = SpriteInfo.Height*10;
+        private readonly int windowWidth = SpriteInfo.Width*10;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = windowHeight;
+            graphics.PreferredBackBufferWidth = windowWidth;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -33,8 +39,7 @@ namespace Bombard360
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            game = new GameplayState();
             base.Initialize();
         }
 
@@ -46,8 +51,7 @@ namespace Bombard360
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            game.LoadContent(this.Content);
         }
 
         /// <summary>
@@ -82,9 +86,7 @@ namespace Bombard360
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            game.Draw(spriteBatch);
             base.Draw(gameTime);
         }
     }
