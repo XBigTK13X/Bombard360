@@ -26,7 +26,6 @@ namespace Bombard360
             {
                 m_windowComponents.Add(new Wall(pair.Key, pair.Value));
             }
-            m_windowComponents.Add(new Bomb(5, 5));
             m_windowComponents.Add(new Player(0, 0, 0, true));
         }
         public void Update()

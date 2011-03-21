@@ -12,8 +12,7 @@ namespace Bombard360
 {
     class State
     {
-       protected List<XnaDrawable> m_windowComponents = new List<XnaDrawable>();
-
+        protected List<XnaDrawable> m_windowComponents = new List<XnaDrawable>();
         public void LoadContent(ContentManager assetHandler)
         {
             foreach (XnaDrawable component in m_windowComponents)

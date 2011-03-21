@@ -21,6 +21,7 @@ namespace Bombard360
         }
         public override void Update()
         {
+            base.Update();
             if (m_isHuman)
             {
                 RunAsHuman();
@@ -30,6 +31,7 @@ namespace Bombard360
                 RunAsComputer();
             }
         }
+
         public bool TakeDamage(int damageDealt)
         {
             m_health -= damageDealt;
@@ -39,18 +41,6 @@ namespace Bombard360
             }
             return m_isAlive;
         }
-        public void Move(int amountX, int amountY)
-        {
-            if (m_position.Y + amountY > 0 && m_position.Y + amountY < SpriteSheetManager.Rows)
-            {
-                m_position.Y += amountY;
-            }
-            if (m_position.X + amountX > 0 && m_position.X + amountX < SpriteSheetManager.Columns)
-            {
-                m_position.X += amountX;
-            }
-        }
-
         private void RunAsHuman()
         {
             int yVel = ((InputManager.IsMovingLeft(m_playerIndex)) ? -1 : 0) + ((InputManager.IsMovingRight(m_playerIndex)) ? 1 : 0);
@@ -60,6 +50,10 @@ namespace Bombard360
             {
                 Move(xVel, yVel);
                 m_moveCooldown = COOLDOWN_TIME;
+            }
+            if (InputManager.IsPlacingBomb(m_playerIndex))
+            {
+                m_containedGraphics.Add(new Bomb((int)m_position.X, (int)m_position.Y));
             }
         }
         private void RunAsComputer()

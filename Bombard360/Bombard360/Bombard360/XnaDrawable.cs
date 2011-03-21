@@ -17,21 +17,46 @@ namespace Bombard360
         private int m_currentFrame;
         private SpriteInfo m_spriteInfo;
         private Rectangle m_currentCell;
-        protected static readonly int COOLDOWN_TIME = 5;
+        protected static readonly int COOLDOWN_TIME = 2;
+        protected bool m_isActive = true;
+
+        protected List<XnaDrawable> m_containedGraphics = new List<XnaDrawable>();
+
+        protected SpriteBatch m_renderTarget;
+        protected ContentManager m_contentManager;
 
         //Load the texture for the sprite using the Content Pipeline
         public void LoadContent(ContentManager assetHandler)
         {
+            m_contentManager = assetHandler;
             m_graphic = assetHandler.Load<Texture2D>(m_assetPath);
             m_spriteInfo = SpriteSheetManager.GetSpriteInfo(m_assetName);
         }
         //Draw the sprite to the screen
         public void Draw(SpriteBatch target)
         {
+            m_renderTarget = target;
+            List<XnaDrawable> deadGraphics = new List<XnaDrawable>();
+            foreach (XnaDrawable graphic in m_containedGraphics)
+            {
+                if (!graphic.IsActive())
+                {
+                    deadGraphics.Add(graphic);
+                }
+                else
+                {
+                    graphic.LoadContent(m_contentManager);
+                    graphic.Draw(m_renderTarget);
+                }
+            }
+            foreach (XnaDrawable deadGraphic in deadGraphics)
+            {
+                m_containedGraphics.Remove(deadGraphic);
+            }
             target.Begin();
-            m_currentCell = new Rectangle(m_currentFrame*m_spriteInfo.X,m_spriteInfo.SpriteIndex*m_spriteInfo.Y, m_spriteInfo.X,m_spriteInfo.Y);
+            m_currentCell = new Rectangle(m_currentFrame * m_spriteInfo.X, m_spriteInfo.SpriteIndex * m_spriteInfo.Y, m_spriteInfo.X, m_spriteInfo.Y);
             Vector2 tempPosition = new Vector2(m_position.Y * SpriteInfo.Width, m_position.X * SpriteInfo.Height);
-            target.Draw(m_graphic, tempPosition,m_currentCell, Color.White);
+            target.Draw(m_graphic, tempPosition, m_currentCell, Color.White);
             target.End();
         }
 
@@ -42,7 +67,29 @@ namespace Bombard360
         }
         public virtual void Update()
         {
-
+            UpdateContainedGraphics();
+        }
+        public void Move(int amountX, int amountY)
+        {
+            if (m_position.Y + amountY > -1 && m_position.Y + amountY < SpriteSheetManager.Rows)
+            {
+                m_position.Y += amountY;
+            }
+            if (m_position.X + amountX > -1 && m_position.X + amountX < SpriteSheetManager.Columns)
+            {
+                m_position.X += amountX;
+            }
+        }
+        public bool IsActive()
+        {
+            return m_isActive;
+        }
+        public void UpdateContainedGraphics()
+        {
+            foreach (XnaDrawable containedGraphic in m_containedGraphics)
+            {
+                containedGraphic.Update();
+            }
         }
     }
 }
