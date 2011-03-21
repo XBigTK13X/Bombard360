@@ -10,8 +10,7 @@ namespace Bombard360
     {
         public EnvironmentTile(int gridColumn, int gridRow, string type)
         {
-            m_assetName = type;
-            m_position = new Vector2(gridColumn * SpriteInfo.Width, gridRow * SpriteInfo.Height);
+            Initialize(gridColumn, gridRow, type);
         }
     }
 }

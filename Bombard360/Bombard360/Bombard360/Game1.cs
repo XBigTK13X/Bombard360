@@ -19,8 +19,8 @@ namespace Bombard360
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameplayState game;
-        private readonly int windowHeight = SpriteInfo.Height*10;
-        private readonly int windowWidth = SpriteInfo.Width*10;
+        private readonly int windowHeight = SpriteInfo.Height*SpriteSheetManager.Rows;
+        private readonly int windowWidth = SpriteInfo.Width*SpriteSheetManager.Columns;
 
         public Game1()
         {

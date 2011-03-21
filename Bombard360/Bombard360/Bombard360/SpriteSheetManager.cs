@@ -8,9 +8,13 @@ namespace Bombard360
 {
     class SpriteSheetManager
     {
+        public static readonly int Columns = 20;
+        public static readonly int Rows = 20;
         private static Dictionary<string, SpriteInfo> m_manager = new Dictionary<string, SpriteInfo>()
         {
-            {"dirt_floor",new SpriteInfo(0)}
+            {"dirt_floor",new SpriteInfo(0)},
+            {"character",new SpriteInfo(1)},
+            {"bomb",new SpriteInfo(2)}
         };
         public static SpriteInfo GetSpriteInfo(string spriteName)
         {

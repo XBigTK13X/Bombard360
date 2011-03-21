@@ -7,8 +7,8 @@ namespace Bombard360
 {
     class SpriteInfo
     {
-        public static readonly int Height = 64;
-        public static readonly int Width = 64;
+        public static readonly int Height = 32;
+        public static readonly int Width = 32;
         public int X, Y, SpriteIndex;
 
         public SpriteInfo(int spriteIndex)

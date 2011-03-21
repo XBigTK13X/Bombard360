@@ -10,13 +10,14 @@ namespace Bombard360
     {
         public GameplayState()
         {
-            for (int ii = 0; ii < 10; ii++)
+            for (int ii = 0; ii < SpriteSheetManager.Rows; ii++)
             {
-                for (int jj = 0; jj < 10; jj++)
+                for (int jj = 0; jj < SpriteSheetManager.Columns; jj++)
                 {
                     m_windowComponents.Add(new EnvironmentTile(ii,jj,"dirt_floor"));
                 }
             }
+            m_windowComponents.Add(new Player(0,0,1,true));
         }
     }
 }
