@@ -74,8 +74,7 @@ namespace Bombard360
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
-
+            game.Update();
             base.Update(gameTime);
         }
 
