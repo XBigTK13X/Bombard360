@@ -34,6 +34,7 @@ namespace Bombard360
             {
                 component.Update();
             }
+            BoardManager.CollectGarbage();
         }
     }
 }

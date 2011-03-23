@@ -10,6 +10,8 @@ namespace Bombard360
         public Wall(int gridColumn, int gridRow)
         {
             Initialize(gridColumn, gridRow, "wall");
+            UpdateBoardInformation();
+            m_isBlocking = true;
         }
     }
 }

@@ -107,8 +107,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardManager.cs" />
     <Compile Include="Bomb.cs" />
     <Compile Include="EnvironmentTile.cs" />
+    <Compile Include="Explosion.cs" />
     <Compile Include="GameplayState.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Player.cs" />

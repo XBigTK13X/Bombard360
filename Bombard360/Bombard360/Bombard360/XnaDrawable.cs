@@ -19,6 +19,7 @@ namespace Bombard360
         private Rectangle m_currentCell;
         protected static readonly int COOLDOWN_TIME = 2;
         protected bool m_isActive = true;
+        protected bool m_isBlocking = false;
 
         protected List<XnaDrawable> m_containedGraphics = new List<XnaDrawable>();
 
@@ -86,10 +87,25 @@ namespace Bombard360
         }
         public void UpdateContainedGraphics()
         {
-            foreach (XnaDrawable containedGraphic in m_containedGraphics)
+            try
             {
-                containedGraphic.Update();
+                foreach (XnaDrawable containedGraphic in m_containedGraphics)
+                {
+                    containedGraphic.Update();
+                }
             }
+            catch (Exception ignored)
+            {
+
+            }
+        }
+        protected void UpdateBoardInformation()
+        {
+            BoardManager.AddIfEmpty((int)m_position.X, (int)m_position.Y, this);
+        }
+        public bool IsBlocking()
+        {
+            return m_isBlocking;
         }
     }
 }

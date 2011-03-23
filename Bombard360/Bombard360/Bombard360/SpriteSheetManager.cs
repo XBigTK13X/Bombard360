@@ -15,7 +15,8 @@ namespace Bombard360
             {"dirt_floor",new SpriteInfo(0)},
             {"character",new SpriteInfo(1)},
             {"bomb",new SpriteInfo(2)},
-            {"wall",new SpriteInfo(3)}
+            {"wall",new SpriteInfo(3)},
+            {"explosion",new SpriteInfo(4)}
         };
         public static SpriteInfo GetSpriteInfo(string spriteName)
         {
