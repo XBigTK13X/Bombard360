@@ -10,14 +10,14 @@ namespace Bombard360
 {
     class BoardManager
     {
-        private static Dictionary<KeyValuePair<int, int>, List<XnaDrawable>> s_board = new Dictionary<KeyValuePair<int, int>, List<XnaDrawable>>();
-        
+        private static Dictionary<KeyValuePair<int, int>, BoardTile> s_board = new Dictionary<KeyValuePair<int, int>, BoardTile>();
+
         private static bool CreateNewEntry(KeyValuePair<int,int> targetSpace, XnaDrawable componentToAdd)
         {
             if (!s_board.Keys.Contains(targetSpace))
             {
-                s_board.Add(targetSpace, new List<XnaDrawable>());
-                s_board[targetSpace].Add(componentToAdd);
+                s_board.Add(targetSpace, new BoardTile());
+                s_board[targetSpace].Register(componentToAdd);
                 return true;
             }
             return false;
@@ -32,22 +32,9 @@ namespace Bombard360
             KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
             if(!(elementWasAdded = CreateNewEntry(targetSpace,componentToAdd)))
             {
-                bool cellIsBlocked = false;
-                bool typeIsUnique = true;
-                foreach(XnaDrawable component in s_board[targetSpace])
+                if (!s_board[targetSpace].IsBlocked())
                 {
-                    if (component.IsBlocking())
-                    {
-                        cellIsBlocked = true;
-                    }
-                    if (component.GetAssetType() == componentToAdd.GetAssetType())
-                    {
-                        typeIsUnique = false;
-                    }
-                }
-                if (!cellIsBlocked&&!s_board[targetSpace].Contains(componentToAdd)&&typeIsUnique)
-                {
-                    s_board[targetSpace].Add(componentToAdd);
+                    s_board[targetSpace].Register(componentToAdd);
                     elementWasAdded = true;
                 }
             }
@@ -62,34 +49,21 @@ namespace Bombard360
             KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
             if (!CreateNewEntry(targetSpace,componentToAdd))
             {
-                bool typeIsUnique = true;
-                foreach (XnaDrawable component in s_board[targetSpace])
-                {
-                    if (component.GetAssetType() == componentToAdd.GetAssetType())
-                    {
-                        typeIsUnique = false;
-                    }
-                }
-                if (!s_board[targetSpace].Contains(componentToAdd)&&typeIsUnique)
-                {
-                    s_board[targetSpace].Add(componentToAdd);
-                }
+                s_board[targetSpace].Register(componentToAdd);
             }
         }
         public static bool IsCellEmpty(int gridColumn, int gridRow)
         {
+            var targetCell = new KeyValuePair<int, int>(gridColumn, gridRow);
             if (gridColumn < 0 || gridRow < 0 || gridColumn > SpriteSheetManager.Columns || gridRow > SpriteSheetManager.Rows)
             {
                 return false;
             }
-            if (s_board.Keys.Contains(new KeyValuePair<int, int>(gridColumn, gridRow)))
+            if (s_board.Keys.Contains(targetCell))
             {
-                foreach (XnaDrawable component in s_board[new KeyValuePair<int, int>(gridColumn, gridRow)])
+                if (s_board[targetCell].IsBlocked())
                 {
-                    if (component.IsBlocking())
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
             return true;
@@ -98,18 +72,7 @@ namespace Bombard360
         {
             foreach (KeyValuePair<int, int> key in s_board.Keys)
             {
-                List<XnaDrawable> deadComponents = new List<XnaDrawable>();
-                foreach (XnaDrawable component in s_board[key])
-                {
-                    if (!component.IsActive())
-                    {
-                        deadComponents.Add(component);
-                    }
-                }
-                foreach (XnaDrawable component in deadComponents)
-                {
-                    s_board[key].Remove(component);
-                }
+                s_board[key].RemoveGarbage();
             }
         }
         public static bool HasTileType(Vector2 location,string assetType)
@@ -117,26 +80,13 @@ namespace Bombard360
             KeyValuePair<int, int> targetCell = new KeyValuePair<int, int>((int)location.X, (int)location.Y);
             if (s_board.Keys.Contains(targetCell))
             {
-                foreach (XnaDrawable component in s_board[targetCell])
-                {
-                    if (component.GetAssetType() == assetType)
-                    {
-                        return true;
-                    }
-                } 
+                return s_board[targetCell].IsTypeRegistered(assetType);
             }
             return false;
         }
         public static XnaDrawable GetTileType(Vector2 location, string type)
         {
-            foreach (XnaDrawable component in s_board[new KeyValuePair<int, int>((int)location.X, (int)location.Y)])
-            {
-                if (component.GetAssetType() == type)
-                {
-                    return component;
-                }
-            }
-            return null;
+           return s_board[new KeyValuePair<int, int>((int)location.X, (int)location.Y)].GetTileOfType(type);
         }
         public static Explosion GetExplosionInstance(Vector2 location)
         {
@@ -146,41 +96,22 @@ namespace Bombard360
         {
             foreach (KeyValuePair<int, int> key in s_board.Keys)
             {
-                List<XnaDrawable> deadComponents = new List<XnaDrawable>();
-                foreach (XnaDrawable component in s_board[key])
-                {
-                    component.Update();
-                    if (!component.IsActive())
-                    {
-                        deadComponents.Add(component);
-                    }
-                }
-                foreach (XnaDrawable component in deadComponents)
-                {
-                    s_board[key].Remove(component);
-                }
+                s_board[key].Update();
+                s_board[key].RemoveGarbage();
             }
         }
         public static void LoadContent(ContentManager assetHandler)
         {
             foreach (KeyValuePair<int, int> key in s_board.Keys)
             {
-                List<XnaDrawable> deadComponents = new List<XnaDrawable>();
-                foreach (XnaDrawable componenet in s_board[key])
-                {
-                    componenet.LoadContent(assetHandler);
-                }
+                s_board[key].LoadContent(assetHandler);
             } 
         }
         public static void Draw(SpriteBatch target)
         {
             foreach (KeyValuePair<int, int> key in s_board.Keys)
             {
-                List<XnaDrawable> deadComponents = new List<XnaDrawable>();
-                foreach (XnaDrawable componenet in s_board[key])
-                {
-                    componenet.Draw(target);
-                }
+                s_board[key].Draw(target);
             }
             Console.WriteLine();
         }
@@ -190,10 +121,6 @@ namespace Bombard360
             foreach (KeyValuePair<int, int> key in s_board.Keys)
             {
                 List<XnaDrawable> deadComponents = new List<XnaDrawable>();
-                foreach (XnaDrawable componenet in s_board[key])
-                {
-                    output += componenet.GetAssetType() + ",";
-                }
                 output+="\n";
             }
             return output;
