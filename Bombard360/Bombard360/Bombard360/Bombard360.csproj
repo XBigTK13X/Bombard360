@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardManager.cs" />
+    <Compile Include="BoardTile.cs" />
     <Compile Include="Bomb.cs" />
     <Compile Include="EnvironmentTile.cs" />
     <Compile Include="Explosion.cs" />

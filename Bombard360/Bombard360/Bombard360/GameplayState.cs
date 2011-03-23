@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Bombard360
 {
@@ -19,31 +21,27 @@ namespace Bombard360
             {
                 for (int jj = 0; jj < SpriteSheetManager.Columns; jj++)
                 {
-                    m_windowComponents.Add(new EnvironmentTile(ii,jj,"dirt_floor"));
+                    BoardManager.Add(new EnvironmentTile(ii,jj,"dirt_floor_tile"));
                 }
             }
             foreach (KeyValuePair<int, int> pair in m_wallPositions)
             {
-                m_windowComponents.Add(new Wall(pair.Key, pair.Value));
+                BoardManager.Add(new Wall(pair.Key, pair.Value));
             }
-            m_windowComponents.Add(new Player(0, 0, 0, true));
+            BoardManager.Add(new Player(0, 0, 0, true));
         }
         public void Update()
-        {
-            List<XnaDrawable> deadComponents = new List<XnaDrawable>();
-            foreach (XnaDrawable component in m_windowComponents)
-            {
-                component.Update();
-                if (!component.IsActive())
-                {
-                    deadComponents.Add(component);
-                }
-            }
-            foreach (XnaDrawable deadComponent in deadComponents)
-            {
-                m_windowComponents.Remove(deadComponent);
-            }
+        {            
+            BoardManager.Update();
             BoardManager.CollectGarbage();
+        }
+        public override void LoadContent(ContentManager assetHandler)
+        {
+            BoardManager.LoadContent(assetHandler);
+        }
+        public override void Draw(SpriteBatch target)
+        {
+            BoardManager.Draw(target);
         }
     }
 }

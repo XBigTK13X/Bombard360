@@ -33,8 +33,26 @@ namespace Bombard360
             }
             if (m_bombLife <= 0&&m_isActive)
             {
-                m_owner.ExplodeBomb((int)m_position.X,(int)m_position.Y, m_range,m_power);
+                Explode((int)m_position.X,(int)m_position.Y);
                 m_isActive = false;
+            }
+        }
+        private void Explode(int gridColumn, int gridRow)
+        {
+            m_owner.FreeBombCacheSlot();
+            List<KeyValuePair<int, int>> explosionPositions = new List<KeyValuePair<int, int>>();
+            for (int ii = 0; ii < m_range; ii++)
+            {
+                explosionPositions.Add(new KeyValuePair<int, int>(gridColumn + ii, gridRow));
+                explosionPositions.Add(new KeyValuePair<int, int>(gridColumn, gridRow + ii));
+                explosionPositions.Add(new KeyValuePair<int, int>(gridColumn - ii, gridRow));
+                explosionPositions.Add(new KeyValuePair<int, int>(gridColumn, gridRow - ii));
+            }
+            Explosion explosionToAdd = null;
+            foreach (KeyValuePair<int, int> pair in explosionPositions)
+            {
+                explosionToAdd = new Explosion(pair.Key, pair.Value, m_power);
+                BoardManager.Add(pair.Key, pair.Value, explosionToAdd);
             }
         }
     }

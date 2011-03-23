@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace Bombard360
 {
@@ -19,6 +21,10 @@ namespace Bombard360
                 return true;
             }
             return false;
+        }
+        public static bool AddIfUnblocked(XnaDrawable component)
+        {
+            return AddIfUnblocked((int)component.GetPosition().X, (int)component.GetPosition().Y, component);
         }
         public static bool AddIfUnblocked(int gridColumn, int gridRow, XnaDrawable componentToAdd)
         {
@@ -46,6 +52,10 @@ namespace Bombard360
                 }
             }
             return elementWasAdded;
+        }
+        public static void Add(XnaDrawable componenetToAdd)
+        {
+            Add((int)componenetToAdd.GetPosition().X, (int)componenetToAdd.GetPosition().Y, componenetToAdd);
         }
         public static void Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
         {
@@ -113,7 +123,7 @@ namespace Bombard360
                     {
                         return true;
                     }
-                }
+                } 
             }
             return false;
         }
@@ -131,6 +141,62 @@ namespace Bombard360
         public static Explosion GetExplosionInstance(Vector2 location)
         {
             return (Explosion)GetTileType(location, "explosion");
+        }
+        public static void Update()
+        {
+            foreach (KeyValuePair<int, int> key in s_board.Keys)
+            {
+                List<XnaDrawable> deadComponents = new List<XnaDrawable>();
+                foreach (XnaDrawable component in s_board[key])
+                {
+                    component.Update();
+                    if (!component.IsActive())
+                    {
+                        deadComponents.Add(component);
+                    }
+                }
+                foreach (XnaDrawable component in deadComponents)
+                {
+                    s_board[key].Remove(component);
+                }
+            }
+        }
+        public static void LoadContent(ContentManager assetHandler)
+        {
+            foreach (KeyValuePair<int, int> key in s_board.Keys)
+            {
+                List<XnaDrawable> deadComponents = new List<XnaDrawable>();
+                foreach (XnaDrawable componenet in s_board[key])
+                {
+                    componenet.LoadContent(assetHandler);
+                }
+            } 
+        }
+        public static void Draw(SpriteBatch target)
+        {
+            foreach (KeyValuePair<int, int> key in s_board.Keys)
+            {
+                List<XnaDrawable> deadComponents = new List<XnaDrawable>();
+                foreach (XnaDrawable componenet in s_board[key])
+                {
+                    componenet.Draw(target);
+                }
+            }
+            Console.WriteLine();
+        }
+        public static string DumpDebuggingLog()
+        {
+            string output = "";
+            foreach (KeyValuePair<int, int> key in s_board.Keys)
+            {
+                List<XnaDrawable> deadComponents = new List<XnaDrawable>();
+                foreach (XnaDrawable componenet in s_board[key])
+                {
+                    output += componenet.GetAssetType() + ",";
+                }
+                output+="\n";
+            }
+            return output;
         }
     }
 }
