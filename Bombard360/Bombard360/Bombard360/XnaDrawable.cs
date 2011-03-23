@@ -101,11 +101,15 @@ namespace Bombard360
         }
         protected void UpdateBoardInformation()
         {
-            BoardManager.AddIfEmpty((int)m_position.X, (int)m_position.Y, this);
+            BoardManager.AddIfUnblocked((int)m_position.X, (int)m_position.Y, this);
         }
         public bool IsBlocking()
         {
             return m_isBlocking;
+        }
+        public string GetAssetType()
+        {
+            return m_assetName;
         }
     }
 }

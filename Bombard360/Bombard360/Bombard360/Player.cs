@@ -47,8 +47,11 @@ namespace Bombard360
         {
             if (MAX_BOMB_CACHE_SIZE > m_currentBombCacheSize)
             {
-                m_containedGraphics.Add(new Bomb((int)m_position.X, (int)m_position.Y, this));
-                m_currentBombCacheSize++;
+                if (BoardManager.IsCellEmpty((int)m_position.X, (int)m_position.Y))
+                {
+                    m_containedGraphics.Add(new Bomb((int)m_position.X, (int)m_position.Y, this));
+                    m_currentBombCacheSize++;
+                }
             }
         }
         public void ExplodeBomb(int gridColumn, int gridRow,int power)
@@ -65,9 +68,12 @@ namespace Bombard360
                 explosionPositions.Add(new KeyValuePair<int, int>(gridColumn - ii, gridRow));
                 explosionPositions.Add(new KeyValuePair<int, int>(gridColumn, gridRow - ii));
             }
+            Explosion explosionToAdd = null;
             foreach (KeyValuePair<int, int> pair in explosionPositions)
             {
-                m_containedGraphics.Add(new Explosion(pair.Key, pair.Value, power));
+                explosionToAdd = new Explosion(pair.Key, pair.Value, power);
+                BoardManager.Add(pair.Key, pair.Value,explosionToAdd);
+                m_containedGraphics.Add(explosionToAdd);
             }
         }
         private void RunAsHuman()

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Bombard360
 {
     class BoardManager
     {
         private static Dictionary<KeyValuePair<int, int>, List<XnaDrawable>> s_board = new Dictionary<KeyValuePair<int, int>, List<XnaDrawable>>();
-        public static bool AddIfEmpty(int gridColumn, int gridRow, XnaDrawable componentToAdd)
+        public static bool AddIfUnblocked(int gridColumn, int gridRow, XnaDrawable componentToAdd)
         {
             bool elementWasAdded = false;
             KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
@@ -35,6 +36,22 @@ namespace Bombard360
                 }
             }
             return elementWasAdded;
+        }
+        public static void Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
+        {
+            KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
+            if (!s_board.Keys.Contains(targetSpace))
+            {
+                s_board.Add(targetSpace, new List<XnaDrawable>());
+                s_board[targetSpace].Add(componentToAdd);
+            }
+            else
+            {
+                if (!s_board[targetSpace].Contains(componentToAdd))
+                {
+                    s_board[targetSpace].Add(componentToAdd);
+                }
+            }
         }
         public static bool IsCellEmpty(int gridColumn, int gridRow)
         {
@@ -71,6 +88,17 @@ namespace Bombard360
                     s_board[key].Remove(component);
                 }
             }
+        }
+        public static bool HasTileType(Vector2 location,string assetType)
+        {
+            foreach (XnaDrawable component in s_board[new KeyValuePair<int, int>((int)location.X, (int)location.Y)])
+            {
+                if (component.GetAssetType() == assetType)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

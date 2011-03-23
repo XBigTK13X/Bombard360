@@ -24,6 +24,10 @@ namespace Bombard360
         {
             UpdateBoardInformation();
             m_bombLife--;
+            if (BoardManager.HasTileType(m_position, "explosion"))
+            {
+                m_bombLife = 0;
+            }
             if (m_bombLife <= 0&&m_isActive)
             {
                 m_owner.ExplodeBomb((int)m_position.X,(int)m_position.Y, m_power);
