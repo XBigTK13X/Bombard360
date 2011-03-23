@@ -12,16 +12,17 @@ namespace Bombard360
     {
         private static Dictionary<KeyValuePair<int, int>, BoardTile> s_board = new Dictionary<KeyValuePair<int, int>, BoardTile>();
 
-        private static bool CreateNewEntry(KeyValuePair<int,int> targetSpace, XnaDrawable componentToAdd)
+        public static void Initialize()
         {
-            if (!s_board.Keys.Contains(targetSpace))
+            for (int ii = 0; ii < SpriteSheetManager.Columns; ii++)
             {
-                s_board.Add(targetSpace, new BoardTile());
-                s_board[targetSpace].Register(componentToAdd);
-                return true;
+                for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
+                {
+                    s_board.Add(new KeyValuePair<int, int>(ii, jj), new BoardTile());
+                }
             }
-            return false;
         }
+
         public static bool AddIfUnblocked(XnaDrawable component)
         {
             return AddIfUnblocked((int)component.GetPosition().X, (int)component.GetPosition().Y, component);
@@ -30,13 +31,10 @@ namespace Bombard360
         {
             bool elementWasAdded = false;
             KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
-            if(!(elementWasAdded = CreateNewEntry(targetSpace,componentToAdd)))
+            if (!s_board[targetSpace].IsBlocked())
             {
-                if (!s_board[targetSpace].IsBlocked())
-                {
-                    s_board[targetSpace].Register(componentToAdd);
-                    elementWasAdded = true;
-                }
+                s_board[targetSpace].Register(componentToAdd);
+                elementWasAdded = true;
             }
             return elementWasAdded;
         }
@@ -47,10 +45,7 @@ namespace Bombard360
         public static void Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
         {
             KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
-            if (!CreateNewEntry(targetSpace,componentToAdd))
-            {
-                s_board[targetSpace].Register(componentToAdd);
-            }
+            s_board[targetSpace].Register(componentToAdd);
         }
         public static bool IsCellEmpty(int gridColumn, int gridRow)
         {
@@ -59,13 +54,10 @@ namespace Bombard360
             {
                 return false;
             }
-            if (s_board.Keys.Contains(targetCell))
+            if (s_board[targetCell].IsBlocked())
             {
-                if (s_board[targetCell].IsBlocked())
-                {
-                    return false;
-                }
-            }
+                return false;
+            }            
             return true;
         }
         public static void CollectGarbage()
@@ -78,11 +70,7 @@ namespace Bombard360
         public static bool HasTileType(Vector2 location,string assetType)
         {
             KeyValuePair<int, int> targetCell = new KeyValuePair<int, int>((int)location.X, (int)location.Y);
-            if (s_board.Keys.Contains(targetCell))
-            {
-                return s_board[targetCell].IsTypeRegistered(assetType);
-            }
-            return false;
+            return s_board[targetCell].IsTypeRegistered(assetType);
         }
         public static XnaDrawable GetTileType(Vector2 location, string type)
         {

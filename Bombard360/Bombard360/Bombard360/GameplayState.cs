@@ -17,6 +17,7 @@ namespace Bombard360
         };
         public GameplayState()
         {
+            BoardManager.Initialize();
             for (int ii = 0; ii < SpriteSheetManager.Rows; ii++)
             {
                 for (int jj = 0; jj < SpriteSheetManager.Columns; jj++)

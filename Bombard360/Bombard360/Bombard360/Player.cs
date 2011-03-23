@@ -55,7 +55,7 @@ namespace Bombard360
             int yVel = ((InputManager.IsMovingLeft(m_playerIndex)) ? -1 : 0) + ((InputManager.IsMovingRight(m_playerIndex)) ? 1 : 0);
             int xVel = ((InputManager.IsMovingDown(m_playerIndex)) ? 1 : 0) + ((InputManager.IsMovingUp(m_playerIndex)) ? -1 : 0);
             m_moveCooldown--;
-            if (m_moveCooldown <= 0)
+            if (m_moveCooldown <= 0&&(xVel!=0||yVel!=0))
             {
                 if(BoardManager.IsCellEmpty((int)m_position.X+xVel,(int)m_position.Y+yVel))
                 {
