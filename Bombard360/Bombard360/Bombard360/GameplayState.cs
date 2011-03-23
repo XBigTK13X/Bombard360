@@ -30,9 +30,18 @@ namespace Bombard360
         }
         public void Update()
         {
+            List<XnaDrawable> deadComponents = new List<XnaDrawable>();
             foreach (XnaDrawable component in m_windowComponents)
             {
                 component.Update();
+                if (!component.IsActive())
+                {
+                    deadComponents.Add(component);
+                }
+            }
+            foreach (XnaDrawable deadComponent in deadComponents)
+            {
+                m_windowComponents.Remove(deadComponent);
             }
             BoardManager.CollectGarbage();
         }

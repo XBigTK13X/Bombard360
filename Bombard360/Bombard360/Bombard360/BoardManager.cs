@@ -9,27 +9,37 @@ namespace Bombard360
     class BoardManager
     {
         private static Dictionary<KeyValuePair<int, int>, List<XnaDrawable>> s_board = new Dictionary<KeyValuePair<int, int>, List<XnaDrawable>>();
-        public static bool AddIfUnblocked(int gridColumn, int gridRow, XnaDrawable componentToAdd)
+        
+        private static bool CreateNewEntry(KeyValuePair<int,int> targetSpace, XnaDrawable componentToAdd)
         {
-            bool elementWasAdded = false;
-            KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
             if (!s_board.Keys.Contains(targetSpace))
             {
                 s_board.Add(targetSpace, new List<XnaDrawable>());
                 s_board[targetSpace].Add(componentToAdd);
-                elementWasAdded = true;
+                return true;
             }
-            else
+            return false;
+        }
+        public static bool AddIfUnblocked(int gridColumn, int gridRow, XnaDrawable componentToAdd)
+        {
+            bool elementWasAdded = false;
+            KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
+            if(!(elementWasAdded = CreateNewEntry(targetSpace,componentToAdd)))
             {
                 bool cellIsBlocked = false;
+                bool typeIsUnique = true;
                 foreach(XnaDrawable component in s_board[targetSpace])
                 {
                     if (component.IsBlocking())
                     {
                         cellIsBlocked = true;
                     }
+                    if (component.GetAssetType() == componentToAdd.GetAssetType())
+                    {
+                        typeIsUnique = false;
+                    }
                 }
-                if (!cellIsBlocked&&!s_board[targetSpace].Contains(componentToAdd))
+                if (!cellIsBlocked&&!s_board[targetSpace].Contains(componentToAdd)&&typeIsUnique)
                 {
                     s_board[targetSpace].Add(componentToAdd);
                     elementWasAdded = true;
@@ -40,14 +50,17 @@ namespace Bombard360
         public static void Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
         {
             KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
-            if (!s_board.Keys.Contains(targetSpace))
+            if (!CreateNewEntry(targetSpace,componentToAdd))
             {
-                s_board.Add(targetSpace, new List<XnaDrawable>());
-                s_board[targetSpace].Add(componentToAdd);
-            }
-            else
-            {
-                if (!s_board[targetSpace].Contains(componentToAdd))
+                bool typeIsUnique = true;
+                foreach (XnaDrawable component in s_board[targetSpace])
+                {
+                    if (component.GetAssetType() == componentToAdd.GetAssetType())
+                    {
+                        typeIsUnique = false;
+                    }
+                }
+                if (!s_board[targetSpace].Contains(componentToAdd)&&typeIsUnique)
                 {
                     s_board[targetSpace].Add(componentToAdd);
                 }
@@ -91,14 +104,33 @@ namespace Bombard360
         }
         public static bool HasTileType(Vector2 location,string assetType)
         {
-            foreach (XnaDrawable component in s_board[new KeyValuePair<int, int>((int)location.X, (int)location.Y)])
+            KeyValuePair<int, int> targetCell = new KeyValuePair<int, int>((int)location.X, (int)location.Y);
+            if (s_board.Keys.Contains(targetCell))
             {
-                if (component.GetAssetType() == assetType)
+                foreach (XnaDrawable component in s_board[targetCell])
                 {
-                    return true;
+                    if (component.GetAssetType() == assetType)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
+        }
+        public static XnaDrawable GetTileType(Vector2 location, string type)
+        {
+            foreach (XnaDrawable component in s_board[new KeyValuePair<int, int>((int)location.X, (int)location.Y)])
+            {
+                if (component.GetAssetType() == type)
+                {
+                    return component;
+                }
+            }
+            return null;
+        }
+        public static Explosion GetExplosionInstance(Vector2 location)
+        {
+            return (Explosion)GetTileType(location, "explosion");
         }
     }
 }

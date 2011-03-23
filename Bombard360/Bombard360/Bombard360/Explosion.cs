@@ -9,7 +9,7 @@ namespace Bombard360
     {
         readonly int MAX_EXPLOSION_LIFE = 100;
         int m_explosionLife;
-        int m_power = 4;
+        int m_power;
 
         public Explosion(int gridColumn, int gridRow, int power)
         {
@@ -26,6 +26,10 @@ namespace Bombard360
             {
                 m_isActive = false;
             }
+        }
+        public int GetPower()
+        {
+            return m_power;
         }
     }
 }

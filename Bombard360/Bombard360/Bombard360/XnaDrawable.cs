@@ -94,9 +94,9 @@ namespace Bombard360
                     containedGraphic.Update();
                 }
             }
-            catch (Exception ignored)
+            catch (Exception ignore)
             {
-
+                Console.WriteLine("Caught an invalid enumeration exception.\n{0}", ignore.Message);
             }
         }
         protected void UpdateBoardInformation()
