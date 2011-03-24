@@ -64,9 +64,9 @@ namespace Bombard360
         {
             return m_isActive;
         }
-        protected void UpdateBoardInformation()
+        public void SetInactive()
         {
-            BoardManager.AddIfUnblocked((int)m_position.X, (int)m_position.Y, this);
+            m_isActive = false;
         }
         public bool IsBlocking()
         {

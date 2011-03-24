@@ -25,7 +25,6 @@ namespace Bombard360
         }
         public override void Update()
         {
-            UpdateBoardInformation();
             m_bombLife--;
             if (BoardManager.HasTileType(m_position, "explosion"))
             {

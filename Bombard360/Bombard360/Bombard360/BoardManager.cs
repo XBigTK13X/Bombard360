@@ -18,7 +18,7 @@ namespace Bombard360
             {
                 for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
                 {
-                    s_board.Add(new KeyValuePair<int, int>(ii, jj), new BoardTile());
+                    s_board.Add(new KeyValuePair<int, int>(ii, jj), new BoardTile(ii,jj));
                 }
             }
         }
@@ -38,9 +38,9 @@ namespace Bombard360
             }
             return elementWasAdded;
         }
-        public static void Add(XnaDrawable componenetToAdd)
+        public static void Add(XnaDrawable componentToAdd)
         {
-            Add((int)componenetToAdd.GetPosition().X, (int)componenetToAdd.GetPosition().Y, componenetToAdd);
+            Add((int)componentToAdd.GetPosition().X, (int)componentToAdd.GetPosition().Y, componentToAdd);
         }
         public static void Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
         {
@@ -50,7 +50,7 @@ namespace Bombard360
         public static bool IsCellEmpty(int gridColumn, int gridRow)
         {
             var targetCell = new KeyValuePair<int, int>(gridColumn, gridRow);
-            if (gridColumn < 0 || gridRow < 0 || gridColumn > SpriteSheetManager.Columns || gridRow > SpriteSheetManager.Rows)
+            if (gridColumn < 0 || gridRow < 0 || gridColumn >= SpriteSheetManager.Columns || gridRow >= SpriteSheetManager.Rows)
             {
                 return false;
             }
@@ -101,15 +101,13 @@ namespace Bombard360
             {
                 s_board[key].Draw(target);
             }
-            Console.WriteLine();
         }
         public static string DumpDebuggingLog()
         {
             string output = "";
             foreach (KeyValuePair<int, int> key in s_board.Keys)
             {
-                List<XnaDrawable> deadComponents = new List<XnaDrawable>();
-                output+="\n";
+                output += key.Key + "," +key.Value + " ::: "+s_board[key].GetDebugLog()+"\n";
             }
             return output;
         }

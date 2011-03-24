@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace Bombard360
 {
@@ -16,7 +17,12 @@ namespace Bombard360
         private Player m_player = null;
         private Explosion m_explosion = null;
         private Wall m_wall = null;
+        private Vector2 m_position;
 
+        public BoardTile(int gridColumn, int gridRow)
+        {
+            m_position = new Vector2(gridColumn, gridRow);
+        }
 
         public bool IsTypeRegistered(string type)
         {
@@ -29,33 +35,46 @@ namespace Bombard360
             }
             return false;
         }
+        private bool Contains(string assetType)
+        {
+            var result = m_drawableComponents.Where(n => n.GetAssetType() == assetType);
+            if (result.Count()==0)
+            {
+                return false;
+            }
+            return true;
+        }
         public void Register(XnaDrawable component)
         {
-            switch (component.GetAssetType())
+            if (!Contains(component.GetAssetType()))
             {
-                case "bomb":
-                    m_bomb = (Bomb)component;
-                    m_drawableComponents.Add(m_bomb);
-                    break;
-                case "character":
-                    m_player = (Player)component;
-                    m_drawableComponents.Add(m_player);
-                    break;
-                case "dirt_floor_tile":
-                    m_environmentTile = (EnvironmentTile)component;
-                    m_drawableComponents.Add(m_environmentTile);
-                    break;
-                case "explosion":
-                    m_explosion = (Explosion)component;
-                    m_drawableComponents.Add(m_explosion);
-                    break;
-                case "wall":
-                    m_wall = (Wall)component;
-                    m_drawableComponents.Add(m_wall);
-                    break;
-                default:
-                    throw new Exception("An unhandled type was detected in BoardTile.");
+                switch (component.GetAssetType())
+                {
+                    case "bomb":
+                        m_bomb = (Bomb)component;
+                        m_drawableComponents.Add(m_bomb);
+                        break;
+                    case "character":
+                        m_player = (Player)component;
+                        m_drawableComponents.Add(m_player);
+                        break;
+                    case "dirt_floor_tile":
+                        m_environmentTile = (EnvironmentTile)component;
+                        m_drawableComponents.Add(m_environmentTile);
+                        break;
+                    case "explosion":
+                        m_explosion = (Explosion)component;
+                        m_drawableComponents.Add(m_explosion);
+                        break;
+                    case "wall":
+                        m_wall = (Wall)component;
+                        m_drawableComponents.Add(m_wall);
+                        break;
+                    default:
+                        throw new Exception("An unhandled type was detected in BoardTile.");
+                }
             }
+            Console.Write(GetDebugLog());
         }
 
         public bool Unregister(XnaDrawable component)
@@ -80,7 +99,18 @@ namespace Bombard360
                 default:
                     throw new Exception("An unhandled type was detected in BoardTile.");
             }
+            Console.Write(GetDebugLog());
             return true;
+        }
+
+        public void RemoveGarbage()
+        {
+            Console.Write(GetDebugLog());
+            var garbage = m_drawableComponents.Where(i => !i.IsActive());
+            if (garbage.Count() > 0)
+            {
+               m_drawableComponents.RemoveAll(item => !item.IsActive());
+            }
         }
 
         public bool IsBlocked()
@@ -93,16 +123,6 @@ namespace Bombard360
                 }
             }
             return false;
-        }
-
-        public void RemoveGarbage()
-        {
-            m_drawableComponents.RemoveAll(item => !item.IsActive());
-        }
-
-        public List<XnaDrawable> GetDrawableComponents()
-        {
-            return m_drawableComponents;
         }
 
         public XnaDrawable GetTileOfType(string type)
@@ -118,16 +138,24 @@ namespace Bombard360
         }
         public void Update()
         {
-            try
+            foreach (XnaDrawable item in m_drawableComponents)
             {
-                foreach (XnaDrawable item in m_drawableComponents)
+                if (item.GetPosition().X != m_position.X || item.GetPosition().Y != m_position.Y)
+                {
+                    switch (item.GetAssetType())
+                    {
+                        case "character":
+                            BoardManager.Add((Player)item);
+                            Unregister((Player)item);
+                            return;
+                        default:
+                            throw new Exception("Unhandled move scenario encountered!");
+                    }
+                }
+                else
                 {
                     item.Update();
                 }
-            }
-            catch(Exception ignore)
-            {
-                Console.WriteLine("IGNORED: {0}", ignore.Message);
             }
         }
         public void Draw(SpriteBatch target)
@@ -143,6 +171,20 @@ namespace Bombard360
             {
                 componenet.LoadContent(assetHandler);
             }
+        }
+        public string GetDebugLog()
+        {
+            string result = "";
+            foreach (XnaDrawable item in m_drawableComponents)
+            {
+                if(item.GetAssetType().Contains("character"))
+                    result += item.GetAssetType() + ",";
+            }
+            if (result != "")
+            {
+                result = m_position.X + ":::" + m_position.Y + " -> " + result;
+            }
+            return result;
         }
     }
 }

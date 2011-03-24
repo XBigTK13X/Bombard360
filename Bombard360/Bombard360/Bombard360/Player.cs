@@ -18,11 +18,17 @@ namespace Bombard360
         private int m_bombPower = 100;
         private int m_bombRange = 3;
 
-        public Player(int gridColumn, int gridRow, int playerId, bool isHuman)
+        private void Setup(int gridColumn, int gridRow, int playerId, bool isHuman)
         {
             Initialize(gridColumn, gridRow, "character");
             m_isHuman = isHuman;
             m_playerIndex = playerId;
+            m_isBlocking = true;
+        }
+
+        public Player(int gridColumn, int gridRow, int playerId, bool isHuman)
+        {
+            Setup(gridColumn, gridRow, playerId, isHuman);
         }
         public override void Update()
         {
@@ -36,7 +42,6 @@ namespace Bombard360
                 RunAsComputer();
             }
             CheckForDamage();
-            UpdateBoardInformation();
         }
         private void CheckForDamage()
         {

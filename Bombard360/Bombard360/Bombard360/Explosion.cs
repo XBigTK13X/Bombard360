@@ -16,7 +16,6 @@ namespace Bombard360
             Initialize(gridColumn, gridRow, "explosion");
             m_power = power;
             m_explosionLife = MAX_EXPLOSION_LIFE;
-            UpdateBoardInformation();
         }
         public override void Update()
         {
