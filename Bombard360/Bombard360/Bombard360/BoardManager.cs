@@ -20,7 +20,7 @@ namespace Bombard360
             {
                 for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
                 {
-                    s_board.Add(new KeyValuePair<int, int>(ii, jj), new BoardTile(ii,jj));
+                    s_board[ii, jj] =  new BoardTile(ii,jj);
                 }
             }
         }
@@ -32,10 +32,9 @@ namespace Bombard360
         public static bool AddIfUnblocked(int gridColumn, int gridRow, XnaDrawable componentToAdd)
         {
             bool elementWasAdded = false;
-            KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
-            if (!s_board[targetSpace].IsBlocked())
+            if (!s_board[gridColumn,gridRow].IsBlocked())
             {
-                s_board[targetSpace].Register(componentToAdd);
+                s_board[gridColumn,gridRow].Register(componentToAdd);
                 elementWasAdded = true;
             }
             return elementWasAdded;
@@ -46,17 +45,15 @@ namespace Bombard360
         }
         public static bool Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
         {
-            KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
-            return s_board[targetSpace].Register(componentToAdd);
+            return s_board[gridColumn, gridRow].Register(componentToAdd);
         }
         public static bool IsCellEmpty(int gridColumn, int gridRow)
         {
-            var targetCell = new KeyValuePair<int, int>(gridColumn, gridRow);
             if (gridColumn < 0 || gridRow < 0 || gridColumn >= SpriteSheetManager.Columns || gridRow >= SpriteSheetManager.Rows)
             {
                 return false;
             }
-            if (s_board[targetCell].IsBlocked())
+            if (s_board[gridColumn, gridRow].IsBlocked())
             {
                 return false;
             }            
@@ -64,19 +61,18 @@ namespace Bombard360
         }
         public static void CollectGarbage()
         {
-            foreach (KeyValuePair<int, int> key in s_board.Keys)
+            foreach (BoardTile tile in s_board)
             {
-                s_board[key].RemoveGarbage();
+                tile.RemoveGarbage();
             }
         }
         public static bool HasTileType(Vector2 location,string assetType)
         {
-            KeyValuePair<int, int> targetCell = new KeyValuePair<int, int>((int)location.X, (int)location.Y);
-            return s_board[targetCell].IsTypeRegistered(assetType);
+            return s_board[(int)location.X, (int)location.Y].IsTypeRegistered(assetType);
         }
         public static XnaDrawable GetTileType(Vector2 location, string type)
         {
-           return s_board[new KeyValuePair<int, int>((int)location.X, (int)location.Y)].GetTileOfType(type);
+           return s_board[(int)location.X,(int)location.Y].GetTileOfType(type);
         }
         public static Explosion GetExplosionInstance(Vector2 location)
         {
@@ -84,32 +80,32 @@ namespace Bombard360
         }
         public static void Update()
         {
-            foreach (KeyValuePair<int, int> key in s_board.Keys)
+            foreach (BoardTile tile in s_board)
             {
-                s_board[key].Update();
-                s_board[key].RemoveGarbage();
+                tile.Update();
+                tile.RemoveGarbage();
             }
         }
         public static void LoadContent(ContentManager assetHandler)
         {
-            foreach (KeyValuePair<int, int> key in s_board.Keys)
+            foreach (BoardTile tile in s_board)
             {
-                s_board[key].LoadContent(assetHandler);
-            } 
+                tile.LoadContent(assetHandler);
+            }
         }
         public static void Draw(SpriteBatch target)
         {
-            foreach (KeyValuePair<int, int> key in s_board.Keys)
+            foreach (BoardTile tile in s_board)
             {
-                s_board[key].Draw(target);
+                tile.Draw(target);
             }
         }
         public static string DumpDebuggingLog()
         {
             string output = "";
-            foreach (KeyValuePair<int, int> key in s_board.Keys)
+            foreach (BoardTile tile in s_board)
             {
-                output += key.Key + "," +key.Value + " ::: "+s_board[key].GetDebugLog()+"\n";
+                output += tile.GetPosition().X + "," +tile.GetPosition().Y + " ::: "+tile.GetDebugLog()+"\n";
             }
             return output;
         }

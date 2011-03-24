@@ -187,6 +187,12 @@ namespace Bombard360
                 componenet.LoadContent(assetHandler);
             }
         }
+
+        public Vector2 GetPosition()
+        {
+            return m_position;
+        }
+
         public string GetDebugLog()
         {
             string result = "";
