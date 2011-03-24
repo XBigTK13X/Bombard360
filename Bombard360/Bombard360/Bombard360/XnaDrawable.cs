@@ -17,7 +17,7 @@ namespace Bombard360
         private int m_currentFrame;
         private SpriteInfo m_spriteInfo;
         private Rectangle m_currentCell;
-        protected static readonly int COOLDOWN_TIME = 5;
+        protected static readonly int COOLDOWN_TIME = 2;
         protected bool m_isActive = true;
         protected bool m_isBlocking = false;
 
@@ -79,6 +79,10 @@ namespace Bombard360
         public Vector2 GetPosition()
         {
             return m_position;
+        }
+        public bool IsGraphicLoaded()
+        {
+            return (m_graphic != null);
         }
     }
 }

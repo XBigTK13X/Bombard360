@@ -18,6 +18,7 @@ namespace Bombard360
         private Explosion m_explosion = null;
         private Wall m_wall = null;
         private Vector2 m_position;
+        private ContentManager m_assetHandler;
 
         public BoardTile(int gridColumn, int gridRow)
         {
@@ -44,7 +45,7 @@ namespace Bombard360
             }
             return true;
         }
-        public void Register(XnaDrawable component)
+        public bool Register(XnaDrawable component)
         {
             if (!Contains(component.GetAssetType()))
             {
@@ -73,8 +74,10 @@ namespace Bombard360
                     default:
                         throw new Exception("An unhandled type was detected in BoardTile.");
                 }
+                return true;
             }
-            Console.Write(GetDebugLog());
+            return false;
+            //Console.Write(GetDebugLog());
         }
 
         public bool Unregister(XnaDrawable component)
@@ -99,13 +102,13 @@ namespace Bombard360
                 default:
                     throw new Exception("An unhandled type was detected in BoardTile.");
             }
-            Console.Write(GetDebugLog());
+            //Console.Write(GetDebugLog());
             return true;
         }
 
         public void RemoveGarbage()
         {
-            Console.Write(GetDebugLog());
+           //Console.Write(GetDebugLog());
             var garbage = m_drawableComponents.Where(i => !i.IsActive());
             if (garbage.Count() > 0)
             {
@@ -138,35 +141,47 @@ namespace Bombard360
         }
         public void Update()
         {
-            foreach (XnaDrawable item in m_drawableComponents)
+            try
             {
-                if (item.GetPosition().X != m_position.X || item.GetPosition().Y != m_position.Y)
+                foreach (XnaDrawable item in m_drawableComponents)
                 {
-                    switch (item.GetAssetType())
+                    if (item.GetPosition().X != m_position.X || item.GetPosition().Y != m_position.Y)
                     {
-                        case "character":
-                            BoardManager.Add((Player)item);
-                            Unregister((Player)item);
-                            return;
-                        default:
-                            throw new Exception("Unhandled move scenario encountered!");
+                        switch (item.GetAssetType())
+                        {
+                            case "character":
+                                BoardManager.Add((Player)item);
+                                Unregister((Player)item);
+                                return;
+                            default:
+                                throw new Exception("Unhandled move scenario encountered!");
+                        }
+                    }
+                    else
+                    {
+                        item.Update();
                     }
                 }
-                else
-                {
-                    item.Update();
-                }
+            }
+            catch (Exception ignore)
+            {
+                return;
             }
         }
         public void Draw(SpriteBatch target)
         {
-            foreach (XnaDrawable componenet in m_drawableComponents)
+            foreach (XnaDrawable component in m_drawableComponents)
             {
-                componenet.Draw(target);
+                if (!component.IsGraphicLoaded())
+                {
+                    component.LoadContent(m_assetHandler);
+                }
+                component.Draw(target);
             }
         }
         public void LoadContent(ContentManager assetHandler)
         {
+            m_assetHandler = assetHandler;
             foreach (XnaDrawable componenet in m_drawableComponents)
             {
                 componenet.LoadContent(assetHandler);
@@ -177,7 +192,7 @@ namespace Bombard360
             string result = "";
             foreach (XnaDrawable item in m_drawableComponents)
             {
-                if(item.GetAssetType().Contains("character"))
+                if(item.GetAssetType().Contains("explosion"))
                     result += item.GetAssetType() + ",";
             }
             if (result != "")

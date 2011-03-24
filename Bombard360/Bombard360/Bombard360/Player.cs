@@ -84,9 +84,10 @@ namespace Bombard360
         {
             if (MAX_BOMB_CACHE_SIZE > m_currentBombCacheSize)
             {
-                
-               BoardManager.AddIfUnblocked(new Bomb((int)m_position.X, (int)m_position.Y, this, m_bombPower, m_bombRange));
-               m_currentBombCacheSize++;
+                if (BoardManager.Add(new Bomb((int)m_position.X, (int)m_position.Y, this, m_bombPower, m_bombRange)))
+                {
+                    m_currentBombCacheSize++;
+                }
             }
         }
         public void FreeBombCacheSlot()

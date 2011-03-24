@@ -10,7 +10,9 @@ namespace Bombard360
 {
     class BoardManager
     {
-        private static Dictionary<KeyValuePair<int, int>, BoardTile> s_board = new Dictionary<KeyValuePair<int, int>, BoardTile>();
+        //private static Dictionary<KeyValuePair<int, int>, BoardTile> s_board = new Dictionary<KeyValuePair<int, int>, BoardTile>();
+
+        private static BoardTile[,] s_board = new BoardTile[SpriteSheetManager.Columns, SpriteSheetManager.Rows];
 
         public static void Initialize()
         {
@@ -38,14 +40,14 @@ namespace Bombard360
             }
             return elementWasAdded;
         }
-        public static void Add(XnaDrawable componentToAdd)
+        public static bool Add(XnaDrawable componentToAdd)
         {
-            Add((int)componentToAdd.GetPosition().X, (int)componentToAdd.GetPosition().Y, componentToAdd);
+            return Add((int)componentToAdd.GetPosition().X, (int)componentToAdd.GetPosition().Y, componentToAdd);
         }
-        public static void Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
+        public static bool Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
         {
             KeyValuePair<int, int> targetSpace = new KeyValuePair<int, int>(gridColumn, gridRow);
-            s_board[targetSpace].Register(componentToAdd);
+            return s_board[targetSpace].Register(componentToAdd);
         }
         public static bool IsCellEmpty(int gridColumn, int gridRow)
         {
