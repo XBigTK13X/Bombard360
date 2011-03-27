@@ -59,7 +59,11 @@ namespace Bombard360
 
         public void SetSpriteInfo(SpriteInfo sprite)
         {
-            m_spriteInfo = sprite;
+            if (m_spriteInfo != sprite)
+            {
+                m_spriteInfo = sprite;
+                m_currentFrame = 0;
+            }
         }
     }
 }

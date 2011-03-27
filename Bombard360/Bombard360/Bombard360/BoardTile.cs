@@ -96,6 +96,9 @@ namespace Bombard360
                 case SpriteType.PLAYER_WALK:
                     m_drawableComponents.Remove(m_player);
                     break;
+                case SpriteType.PLAYER_STAND:
+                    m_drawableComponents.Remove(m_player);
+                    break;
                 case SpriteType.DIRT_FLOOR:
                     m_drawableComponents.Remove(m_environmentTile);
                     break;
@@ -163,6 +166,10 @@ namespace Bombard360
                         switch (item.GetAssetType())
                         {
                             case SpriteType.PLAYER_WALK:
+                                BoardManager.Add((Player)item);
+                                Unregister((Player)item);
+                                return;
+                            case SpriteType.PLAYER_STAND:
                                 BoardManager.Add((Player)item);
                                 Unregister((Player)item);
                                 return;

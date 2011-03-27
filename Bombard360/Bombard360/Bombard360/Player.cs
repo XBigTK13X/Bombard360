@@ -7,6 +7,8 @@ namespace Bombard360
 {
     class Player:GameplayObject
     {
+        public static readonly SpriteType[] SPRITE_TYPES = { SpriteType.PLAYER_STAND, SpriteType.PLAYER_WALK };
+
         private bool m_isHuman;
         private float m_health = 100;
         private bool m_isAlive;
