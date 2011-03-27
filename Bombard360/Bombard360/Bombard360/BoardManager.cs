@@ -31,16 +31,15 @@ namespace Bombard360
         }
         public static bool AddIfUnblocked(int gridColumn, int gridRow, XnaDrawable componentToAdd)
         {
-            bool elementWasAdded = false;
             if (BoardManager.IsCoordValid(gridColumn, gridRow))
             {
                 if (!s_board[gridColumn, gridRow].IsBlocked())
                 {
                     s_board[gridColumn, gridRow].Register(componentToAdd);
-                    elementWasAdded = true;
+                    return true;
                 }
             }
-            return elementWasAdded;
+            return false;
         }
         public static bool Add(XnaDrawable componentToAdd)
         {
@@ -48,12 +47,11 @@ namespace Bombard360
         }
         public static bool Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
         {
-            bool isCoordValid = false;
             if(BoardManager.IsCoordValid(gridColumn,gridRow))
             {
-                 isCoordValid = s_board[gridColumn, gridRow].Register(componentToAdd);
+                 return s_board[gridColumn, gridRow].Register(componentToAdd);
             }
-            return isCoordValid;
+            return false;
         }
         public static bool IsCellEmpty(int gridColumn, int gridRow)
         {
