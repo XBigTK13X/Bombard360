@@ -26,7 +26,7 @@ namespace Bombard360
         public override void Update()
         {
             m_bombLife--;
-            if (BoardManager.HasTileType(m_position, SpriteType.BOMB))
+            if (BoardManager.HasTileType(m_position, SpriteType.EXPLOSION))
             {
                 m_bombLife = 0;
             }
