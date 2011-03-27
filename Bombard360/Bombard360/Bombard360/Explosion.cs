@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bombard360
 {
-    class Explosion:XnaDrawable
+    class Explosion:GameplayObject
     {
         readonly int MAX_EXPLOSION_LIFE = 100;
         int m_explosionLife;

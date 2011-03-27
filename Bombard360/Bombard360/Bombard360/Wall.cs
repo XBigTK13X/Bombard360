@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bombard360
 {
-    class Wall:XnaDrawable
+    class Wall:GameplayObject
     {
         public Wall(int gridColumn, int gridRow)
         {

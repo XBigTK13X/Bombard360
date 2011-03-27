@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bombard360
 {
-    class Player:XnaDrawable
+    class Player:GameplayObject
     {
         private bool m_isHuman;
         private float m_health = 100;

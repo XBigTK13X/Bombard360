@@ -12,10 +12,10 @@ namespace Bombard360
 {
     class State
     {
-        protected List<XnaDrawable> m_windowComponents = new List<XnaDrawable>();
+        protected List<GameplayObject> m_windowComponents = new List<GameplayObject>();
         public virtual void LoadContent(ContentManager assetHandler)
         {
-            foreach (XnaDrawable component in m_windowComponents)
+            foreach (GameplayObject component in m_windowComponents)
             {
                 component.LoadContent(assetHandler);
             }
@@ -23,7 +23,7 @@ namespace Bombard360
         
         public virtual void Draw(SpriteBatch target)
         {
-            foreach (XnaDrawable component in m_windowComponents)
+            foreach (GameplayObject component in m_windowComponents)
             {
                 component.Draw(target);
             }

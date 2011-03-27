@@ -10,7 +10,7 @@ namespace Bombard360
 {
     class BoardTile
     {
-        private List<XnaDrawable> m_drawableComponents = new List<XnaDrawable>();
+        private List<GameplayObject> m_drawableComponents = new List<GameplayObject>();
 
         private Bomb m_bomb = null;
         private EnvironmentTile m_environmentTile = null;
@@ -27,7 +27,7 @@ namespace Bombard360
 
         public bool IsTypeRegistered(string type)
         {
-            foreach (XnaDrawable element in m_drawableComponents)
+            foreach (GameplayObject element in m_drawableComponents)
             {
                 if (type == element.GetAssetType())
                 {
@@ -38,7 +38,7 @@ namespace Bombard360
         }
         private bool Contains(string assetType)
         {
-            foreach (XnaDrawable item in m_drawableComponents)
+            foreach (GameplayObject item in m_drawableComponents)
             {
                 if (item.GetAssetType() == assetType)
                 {
@@ -47,7 +47,7 @@ namespace Bombard360
             }            
             return false;
         }
-        public bool Register(XnaDrawable component)
+        public bool Register(GameplayObject component)
         {
             if (!Contains(component.GetAssetType()))
             {
@@ -82,7 +82,7 @@ namespace Bombard360
             //Console.Write(GetDebugLog());
         }
 
-        public bool Unregister(XnaDrawable component)
+        public bool Unregister(GameplayObject component)
         {
             switch (component.GetAssetType())
             {
@@ -111,15 +111,15 @@ namespace Bombard360
         public void RemoveGarbage()
         {
             //Console.Write(GetDebugLog());
-            var deadItems = new List<XnaDrawable>();
-            foreach (XnaDrawable item in m_drawableComponents)
+            var deadItems = new List<GameplayObject>();
+            foreach (GameplayObject item in m_drawableComponents)
             {
                 if (!item.IsActive())
                 {
                     deadItems.Add(item);
                 }
             }
-            foreach (XnaDrawable item in deadItems)
+            foreach (GameplayObject item in deadItems)
             {
                 m_drawableComponents.Remove(item);
             }
@@ -127,7 +127,7 @@ namespace Bombard360
 
         public bool IsBlocked()
         {
-            foreach (XnaDrawable item in m_drawableComponents)
+            foreach (GameplayObject item in m_drawableComponents)
             {
                 if (item.IsBlocking())
                 {
@@ -137,9 +137,9 @@ namespace Bombard360
             return false;
         }
 
-        public XnaDrawable GetTileOfType(string type)
+        public GameplayObject GetTileOfType(string type)
         {
-            foreach (XnaDrawable item in m_drawableComponents)
+            foreach (GameplayObject item in m_drawableComponents)
             {
                 if (item.GetAssetType() == type)
                 {
@@ -152,7 +152,7 @@ namespace Bombard360
         {
             try
             {
-                foreach (XnaDrawable item in m_drawableComponents)
+                foreach (GameplayObject item in m_drawableComponents)
                 {
                     if (item.GetPosition().X != m_position.X || item.GetPosition().Y != m_position.Y)
                     {
@@ -179,7 +179,7 @@ namespace Bombard360
         }
         public void Draw(SpriteBatch target)
         {
-            foreach (XnaDrawable component in m_drawableComponents)
+            foreach (GameplayObject component in m_drawableComponents)
             {
                 if (!component.IsGraphicLoaded())
                 {
@@ -191,7 +191,7 @@ namespace Bombard360
         public void LoadContent(ContentManager assetHandler)
         {
             m_assetHandler = assetHandler;
-            foreach (XnaDrawable componenet in m_drawableComponents)
+            foreach (GameplayObject componenet in m_drawableComponents)
             {
                 componenet.LoadContent(assetHandler);
             }
@@ -205,7 +205,7 @@ namespace Bombard360
         public string GetDebugLog()
         {
             string result = "";
-            foreach (XnaDrawable item in m_drawableComponents)
+            foreach (GameplayObject item in m_drawableComponents)
             {
                 if(item.GetAssetType()=="explosion"||item.GetAssetType()=="bomb")
                     result += item.GetAssetType() + ",";

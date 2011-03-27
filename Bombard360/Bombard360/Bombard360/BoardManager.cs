@@ -25,11 +25,11 @@ namespace Bombard360
             }
         }
 
-        public static bool AddIfUnblocked(XnaDrawable component)
+        public static bool AddIfUnblocked(GameplayObject component)
         {
             return AddIfUnblocked((int)component.GetPosition().X, (int)component.GetPosition().Y, component);
         }
-        public static bool AddIfUnblocked(int gridColumn, int gridRow, XnaDrawable componentToAdd)
+        public static bool AddIfUnblocked(int gridColumn, int gridRow, GameplayObject componentToAdd)
         {
             if (BoardManager.IsCoordValid(gridColumn, gridRow))
             {
@@ -41,11 +41,11 @@ namespace Bombard360
             }
             return false;
         }
-        public static bool Add(XnaDrawable componentToAdd)
+        public static bool Add(GameplayObject componentToAdd)
         {
             return Add((int)componentToAdd.GetPosition().X, (int)componentToAdd.GetPosition().Y, componentToAdd);
         }
-        public static bool Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
+        public static bool Add(int gridColumn,int gridRow, GameplayObject componentToAdd)
         {
             if(BoardManager.IsCoordValid(gridColumn,gridRow))
             {
@@ -69,7 +69,7 @@ namespace Bombard360
         {
             return s_board[(int)location.X, (int)location.Y].IsTypeRegistered(assetType);
         }
-        public static XnaDrawable GetTileType(Vector2 location, string type)
+        public static GameplayObject GetTileType(Vector2 location, string type)
         {
            return s_board[(int)location.X,(int)location.Y].GetTileOfType(type);
         }

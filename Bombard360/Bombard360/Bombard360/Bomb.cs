@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Bombard360
 {
-    class Bomb:XnaDrawable
+    class Bomb:GameplayObject
     {
         readonly int MAX_BOMB_LIFE = 100;
         int m_bombLife;

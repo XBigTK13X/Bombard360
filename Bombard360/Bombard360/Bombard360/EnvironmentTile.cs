@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Bombard360
 {
-    class EnvironmentTile:XnaDrawable
+    class EnvironmentTile:GameplayObject
     {
         public EnvironmentTile(int gridColumn, int gridRow, string type)
         {

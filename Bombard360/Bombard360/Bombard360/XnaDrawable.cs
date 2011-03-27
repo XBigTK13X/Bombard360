@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Bombard360
 {
-    class XnaDrawable
+    class GameplayObject
     {
         private AnimatedTexture m_graphic = new AnimatedTexture(); 
 
