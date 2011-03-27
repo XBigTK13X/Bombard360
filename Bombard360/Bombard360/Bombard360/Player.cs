@@ -20,12 +20,16 @@ namespace Bombard360
         private int m_bombPower = 100;
         private int m_bombRange = 3;
 
+        private int m_AI_SPEED = COOLDOWN_TIME * 2;
+        private int m_aiCooldown;
+
         private void Setup(int gridColumn, int gridRow, int playerId, bool isHuman)
         {
             Initialize(gridColumn, gridRow,SpriteType.PLAYER_STAND);
             m_isHuman = isHuman;
             m_playerIndex = playerId;
             m_isBlocking = true;
+            m_aiCooldown = m_AI_SPEED;
             AIManager.Add(this);
         }
 
@@ -80,9 +84,15 @@ namespace Bombard360
 
         private void RunAsComputer()
         {
-            int xVel = ((AIManager.IsClosestPlayerWest(this)) ? -1 : 0) + ((AIManager.IsClosestPlayerEast(this)) ? 1 : 0);
-            int yVel = ((AIManager.IsClosestPlayerSouth(this)) ? 1 : 0) + ((AIManager.IsClosestPlayerNorth(this)) ? -1 : 0);
-            MoveIfPossible(xVel, yVel);
+            m_aiCooldown--;
+            if (m_aiCooldown <= 0)
+            {
+                int xVel = ((AIManager.IsClosestPlayerWest(this)) ? -1 : 0) + ((AIManager.IsClosestPlayerEast(this)) ? 1 : 0);
+                int yVel = ((AIManager.IsClosestPlayerSouth(this)) ? 1 : 0) + ((AIManager.IsClosestPlayerNorth(this)) ? -1 : 0);
+                MoveIfPossible(xVel, yVel);
+                m_aiCooldown = m_AI_SPEED;
+                PlaceBomb();
+            }
         }
 
         private void MoveIfPossible(int xVel, int yVel)
