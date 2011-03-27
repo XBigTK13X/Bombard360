@@ -84,6 +84,10 @@ namespace Bombard360
                         m_crate = (Crate)component;
                         m_drawableComponents.Add(m_crate);
                         break;
+                    case SpriteType.POWERUP:
+                        m_powerup = (Powerup)component;
+                        m_drawableComponents.Add(m_powerup);
+                        break;
                     default:
                         throw new Exception("An unhandled type was detected in BoardTile.");
                 }

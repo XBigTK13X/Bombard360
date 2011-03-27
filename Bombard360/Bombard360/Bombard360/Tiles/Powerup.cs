@@ -14,8 +14,10 @@ namespace Bombard360.Tiles
         }
         public override void Update()
         {
-            base.Update();
-
+            if (BoardManager.HasTileType(m_position, SpriteType.PLAYER_STAND) || BoardManager.HasTileType(m_position, SpriteType.PLAYER_WALK))
+            {
+                m_isActive = false;
+            }
         }
     }
 }
