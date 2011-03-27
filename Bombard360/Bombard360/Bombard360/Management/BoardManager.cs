@@ -24,6 +24,25 @@ namespace Bombard360
                     s_board[ii, jj] =  new BoardTile(ii,jj);
                 }
             }
+            LoadBoard();
+        }
+
+        public static void LoadBoard()
+        {
+            List<int> mapWallsX = new List<int>(){2,2,2,2,2,3,4,5,6,7};
+            List<int> mapWallsY = new List<int>(){3,4,5,6,7,3,3,3,3,3};
+            List<int> crateX = new List<int>() { 1, 2 };
+            List<int> crateY = new List<int>() { 0, 0 };
+            for (int ii = 0; ii < mapWallsX.Count(); ii++)
+            {
+                if (ii < crateX.Count())
+                {
+                    BoardManager.Add(new Crate(crateX[ii], crateY[ii]));
+                }
+                BoardManager.Add(new Wall(mapWallsX[ii], mapWallsY[ii]));
+            }
+            BoardManager.Add(new Player(0, 0, 0, true));
+            BoardManager.Add(new Player(19, 19, 1, false));
         }
 
         public static bool AddIfUnblocked(GameplayObject component)
