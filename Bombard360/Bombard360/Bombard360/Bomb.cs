@@ -16,7 +16,7 @@ namespace Bombard360
 
         public Bomb(int gridColumn, int gridRow,Player owner,int power,int range)
         {
-            Initialize(gridColumn, gridRow, "bomb");
+            Initialize(gridColumn, gridRow, SpriteType.BOMB);
             m_bombLife = MAX_BOMB_LIFE;
             m_owner = owner;
             m_power = power;
@@ -26,7 +26,7 @@ namespace Bombard360
         public override void Update()
         {
             m_bombLife--;
-            if (BoardManager.HasTileType(m_position, "explosion"))
+            if (BoardManager.HasTileType(m_position, SpriteType.BOMB))
             {
                 m_bombLife = 0;
             }

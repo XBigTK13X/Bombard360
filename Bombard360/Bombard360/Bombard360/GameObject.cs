@@ -11,11 +11,11 @@ namespace Bombard360
     class GameplayObject
     {
         private AnimatedTexture m_graphic = new AnimatedTexture(); 
-
+        
         protected static readonly int COOLDOWN_TIME = 2;
         protected bool m_isActive = true;
         protected bool m_isBlocking = false;
-        protected string m_assetName;
+        protected SpriteType m_assetName;
         protected Vector2 m_position = Vector2.Zero;
 
         //Load the texture for the sprite using the Content Pipeline
@@ -29,14 +29,13 @@ namespace Bombard360
             m_graphic.Draw(target,m_position);
         }
 
-        protected void Initialize(int gridColumn, int gridRow, string type)
+        protected void Initialize(int gridColumn, int gridRow, SpriteType type)
         {
             m_assetName = type;
             m_position = new Vector2(gridColumn, gridRow);
         }
         public virtual void Update()
         {
-            m_graphic.Animate();
         }
         public void Move(int amountX, int amountY)
         {
@@ -58,7 +57,7 @@ namespace Bombard360
         {
             return m_isBlocking;
         }
-        public string GetAssetType()
+        public SpriteType GetAssetType()
         {
             return m_assetName;
         }
@@ -69,6 +68,10 @@ namespace Bombard360
         public bool IsGraphicLoaded()
         {
             return (m_graphic != null);
+        }
+        protected void SetSpriteInfo(SpriteInfo sprite)
+        {
+            m_graphic.SetSpriteInfo(sprite);
         }
     }
 }

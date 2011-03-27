@@ -11,7 +11,7 @@ namespace Bombard360
     class AnimatedTexture
     {
         private readonly string m_assetPath = @"GameplaySheet";
-        private readonly int m_animateFramesPerSecond = 1;
+        private readonly int m_ANIMATE_SPEED = 20;
 
         private SpriteBatch m_renderTarget;
         private ContentManager m_contentManager;
@@ -19,17 +19,23 @@ namespace Bombard360
         private SpriteInfo m_spriteInfo;
         private Rectangle m_currentCell;
         private Texture2D m_graphic;
+        private int m_animationTimer;
 
-        public void LoadContent(ContentManager assetHandler,string assetName)
+        public void LoadContent(ContentManager assetHandler,SpriteType assetName)
         {
-            m_contentManager = assetHandler;
-            m_graphic = assetHandler.Load<Texture2D>(m_assetPath);
-            m_spriteInfo = SpriteSheetManager.GetSpriteInfo(assetName);
-            m_currentFrame = 0;
+            if (m_contentManager == null)
+            {
+                m_contentManager = assetHandler;
+                m_graphic = assetHandler.Load<Texture2D>(m_assetPath);
+                m_spriteInfo = SpriteSheetManager.GetSpriteInfo(assetName);
+                m_currentFrame = 0;
+                m_animationTimer = m_ANIMATE_SPEED;
+            }
         }
 
         public void Draw(SpriteBatch target,Vector2 position)
         {
+            UpdateAnimation();
             m_renderTarget = target;
             target.Begin();
             m_currentCell = new Rectangle(m_currentFrame * m_spriteInfo.X, m_spriteInfo.SpriteIndex * m_spriteInfo.Y, m_spriteInfo.X, m_spriteInfo.Y);
@@ -38,12 +44,22 @@ namespace Bombard360
             target.End();
         }
 
-        public void Animate()
+        private void UpdateAnimation()
         {
             if (m_spriteInfo.MaxFrame != 1)
             {
-                m_currentFrame = (m_currentFrame + 1) % m_spriteInfo.MaxFrame;
+                m_animationTimer--;
+                if (m_animationTimer <= 0)
+                {
+                    m_currentFrame = (m_currentFrame + 1) % m_spriteInfo.MaxFrame;
+                    m_animationTimer = m_ANIMATE_SPEED;
+                }
             }
+        }
+
+        public void SetSpriteInfo(SpriteInfo sprite)
+        {
+            m_spriteInfo = sprite;
         }
     }
 }

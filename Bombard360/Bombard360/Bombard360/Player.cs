@@ -20,7 +20,7 @@ namespace Bombard360
 
         private void Setup(int gridColumn, int gridRow, int playerId, bool isHuman)
         {
-            Initialize(gridColumn, gridRow, "character");
+            Initialize(gridColumn, gridRow,SpriteType.PLAYER_STAND);
             m_isHuman = isHuman;
             m_playerIndex = playerId;
             m_isBlocking = true;
@@ -45,7 +45,7 @@ namespace Bombard360
         }
         private void CheckForDamage()
         {
-            if (BoardManager.HasTileType(m_position, "explosion"))
+            if (BoardManager.HasTileType(m_position, SpriteType.EXPLOSION))
             {
                 m_health -= BoardManager.GetExplosionInstance(m_position).GetPower();
             }
@@ -59,6 +59,14 @@ namespace Bombard360
         {
             int yVel = ((InputManager.IsMovingLeft(m_playerIndex)) ? -1 : 0) + ((InputManager.IsMovingRight(m_playerIndex)) ? 1 : 0);
             int xVel = ((InputManager.IsMovingDown(m_playerIndex)) ? 1 : 0) + ((InputManager.IsMovingUp(m_playerIndex)) ? -1 : 0);
+            if ((xVel != 0 || yVel != 0))
+            {
+                SetSpriteInfo(SpriteSheetManager.GetSpriteInfo(SpriteType.PLAYER_WALK));
+            }
+            else
+            {
+                SetSpriteInfo(SpriteSheetManager.GetSpriteInfo(SpriteType.PLAYER_STAND));
+            }
             m_moveCooldown--;
             if (m_moveCooldown <= 0&&(xVel!=0||yVel!=0))
             {

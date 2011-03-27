@@ -25,7 +25,7 @@ namespace Bombard360
             m_position = new Vector2(gridColumn, gridRow);
         }
 
-        public bool IsTypeRegistered(string type)
+        public bool IsTypeRegistered(SpriteType type)
         {
             foreach (GameplayObject element in m_drawableComponents)
             {
@@ -36,7 +36,7 @@ namespace Bombard360
             }
             return false;
         }
-        private bool Contains(string assetType)
+        private bool Contains(SpriteType assetType)
         {
             foreach (GameplayObject item in m_drawableComponents)
             {
@@ -53,23 +53,27 @@ namespace Bombard360
             {
                 switch (component.GetAssetType())
                 {
-                    case "bomb":
+                    case SpriteType.BOMB:
                         m_bomb = (Bomb)component;
                         m_drawableComponents.Add(m_bomb);
                         break;
-                    case "character":
+                    case SpriteType.PLAYER_WALK:
                         m_player = (Player)component;
                         m_drawableComponents.Add(m_player);
                         break;
-                    case "dirt_floor_tile":
+                    case SpriteType.PLAYER_STAND:
+                        m_player = (Player)component;
+                        m_drawableComponents.Add(m_player);
+                        break;
+                    case SpriteType.DIRT_FLOOR:
                         m_environmentTile = (EnvironmentTile)component;
                         m_drawableComponents.Add(m_environmentTile);
                         break;
-                    case "explosion":
+                    case SpriteType.EXPLOSION:
                         m_explosion = (Explosion)component;
                         m_drawableComponents.Add(m_explosion);
                         break;
-                    case "wall":
+                    case SpriteType.WALL:
                         m_wall = (Wall)component;
                         m_drawableComponents.Add(m_wall);
                         break;
@@ -86,19 +90,19 @@ namespace Bombard360
         {
             switch (component.GetAssetType())
             {
-                case "bomb":
+                case SpriteType.BOMB:
                     m_drawableComponents.Remove(m_bomb);
                     break;
-                case "character":
+                case SpriteType.PLAYER_WALK:
                     m_drawableComponents.Remove(m_player);
                     break;
-                case "dirt_floor_tile":
+                case SpriteType.DIRT_FLOOR:
                     m_drawableComponents.Remove(m_environmentTile);
                     break;
-                case "explosion":
+                case SpriteType.EXPLOSION:
                     m_drawableComponents.Remove(m_explosion);
                     break;
-                case "wall":
+                case SpriteType.WALL:
                     m_drawableComponents.Remove(m_wall);
                     break;
                 default:
@@ -137,7 +141,7 @@ namespace Bombard360
             return false;
         }
 
-        public GameplayObject GetTileOfType(string type)
+        public GameplayObject GetTileOfType(SpriteType type)
         {
             foreach (GameplayObject item in m_drawableComponents)
             {
@@ -158,7 +162,7 @@ namespace Bombard360
                     {
                         switch (item.GetAssetType())
                         {
-                            case "character":
+                            case SpriteType.PLAYER_WALK:
                                 BoardManager.Add((Player)item);
                                 Unregister((Player)item);
                                 return;
@@ -207,7 +211,7 @@ namespace Bombard360
             string result = "";
             foreach (GameplayObject item in m_drawableComponents)
             {
-                if(item.GetAssetType()=="explosion"||item.GetAssetType()=="bomb")
+                if(item.GetAssetType()==SpriteType.EXPLOSION||item.GetAssetType()==SpriteType.BOMB)
                     result += item.GetAssetType() + ",";
             }
             if (result != "")

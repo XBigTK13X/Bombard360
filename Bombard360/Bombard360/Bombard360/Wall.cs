@@ -9,7 +9,7 @@ namespace Bombard360
     {
         public Wall(int gridColumn, int gridRow)
         {
-            Initialize(gridColumn, gridRow, "wall");
+            Initialize(gridColumn, gridRow, SpriteType.WALL);
             m_isBlocking = true;
         }
     }

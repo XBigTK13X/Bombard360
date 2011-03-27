@@ -65,17 +65,17 @@ namespace Bombard360
             }            
             return true;
         }
-        public static bool HasTileType(Vector2 location,string assetType)
+        public static bool HasTileType(Vector2 location,SpriteType assetType)
         {
             return s_board[(int)location.X, (int)location.Y].IsTypeRegistered(assetType);
         }
-        public static GameplayObject GetTileType(Vector2 location, string type)
+        public static GameplayObject GetTileType(Vector2 location, SpriteType type)
         {
            return s_board[(int)location.X,(int)location.Y].GetTileOfType(type);
         }
         public static Explosion GetExplosionInstance(Vector2 location)
         {
-            return (Explosion)GetTileType(location, "explosion");
+            return (Explosion)GetTileType(location, SpriteType.EXPLOSION);
         }
         public static void Update()
         {

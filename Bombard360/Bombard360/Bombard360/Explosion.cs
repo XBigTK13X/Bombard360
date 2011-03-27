@@ -13,7 +13,7 @@ namespace Bombard360
 
         public Explosion(int gridColumn, int gridRow, int power)
         {
-            Initialize(gridColumn, gridRow, "explosion");
+            Initialize(gridColumn, gridRow, SpriteType.EXPLOSION);
             m_power = power;
             m_explosionLife = MAX_EXPLOSION_LIFE;
         }

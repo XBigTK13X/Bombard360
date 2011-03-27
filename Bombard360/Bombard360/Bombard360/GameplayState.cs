@@ -22,7 +22,7 @@ namespace Bombard360
             {
                 for (int jj = 0; jj < SpriteSheetManager.Columns; jj++)
                 {
-                    BoardManager.Add(new EnvironmentTile(ii,jj,"dirt_floor_tile"));
+                    BoardManager.Add(new EnvironmentTile(ii,jj,SpriteType.DIRT_FLOOR));
                 }
             }
             foreach (KeyValuePair<int, int> pair in m_wallPositions)

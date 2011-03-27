@@ -8,7 +8,7 @@ namespace Bombard360
 {
     class EnvironmentTile:GameplayObject
     {
-        public EnvironmentTile(int gridColumn, int gridRow, string type)
+        public EnvironmentTile(int gridColumn, int gridRow, SpriteType type)
         {
             Initialize(gridColumn, gridRow, type);
         }
