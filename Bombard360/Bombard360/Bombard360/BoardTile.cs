@@ -181,19 +181,19 @@ namespace Bombard360
         {
             foreach (GameplayObject component in m_drawableComponents)
             {
-                if (!component.IsGraphicLoaded())
-                {
-                    component.LoadContent(m_assetHandler);
-                }
+                component.LoadContent(m_assetHandler);
                 component.Draw(target);
             }
         }
         public void LoadContent(ContentManager assetHandler)
         {
             m_assetHandler = assetHandler;
-            foreach (GameplayObject componenet in m_drawableComponents)
+            foreach (GameplayObject component in m_drawableComponents)
             {
-                componenet.LoadContent(assetHandler);
+                if (!component.IsGraphicLoaded())
+                {
+                    component.LoadContent(assetHandler);
+                }
             }
         }
 

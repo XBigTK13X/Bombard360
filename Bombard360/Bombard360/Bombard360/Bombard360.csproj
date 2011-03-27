@@ -126,7 +126,7 @@
     <Compile Include="SpriteInfo.cs" />
     <Compile Include="SpriteSheetManager.cs" />
     <Compile Include="Wall.cs" />
-    <Compile Include="XnaDrawable.cs" />
+    <Compile Include="GameObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

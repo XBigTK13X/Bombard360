@@ -11,10 +11,10 @@ namespace Bombard360
     class AnimatedTexture
     {
         private readonly string m_assetPath = @"GameplaySheet";
+        private readonly int m_animateFramesPerSecond = 1;
 
-        protected SpriteBatch m_renderTarget;
-        protected ContentManager m_contentManager;
-
+        private SpriteBatch m_renderTarget;
+        private ContentManager m_contentManager;
         private int m_currentFrame;
         private SpriteInfo m_spriteInfo;
         private Rectangle m_currentCell;
