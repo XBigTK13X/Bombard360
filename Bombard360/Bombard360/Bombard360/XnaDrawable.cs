@@ -31,6 +31,7 @@ namespace Bombard360
             m_contentManager = assetHandler;
             m_graphic = assetHandler.Load<Texture2D>(m_assetPath);
             m_spriteInfo = SpriteSheetManager.GetSpriteInfo(m_assetName);
+            m_currentFrame = 0;
         }
         //Draw the sprite to the screen
         public void Draw(SpriteBatch target)
@@ -50,7 +51,10 @@ namespace Bombard360
         }
         public virtual void Update()
         {
-            
+            if (m_spriteInfo.MaxFrame != 1)
+            {
+                m_currentFrame = (m_currentFrame + 1) % m_spriteInfo.MaxFrame;
+            }
         }
         public void Move(int amountX, int amountY)
         {

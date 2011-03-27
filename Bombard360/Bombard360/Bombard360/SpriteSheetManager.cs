@@ -12,11 +12,11 @@ namespace Bombard360
         public static readonly int Rows = 20;
         private static Dictionary<string, SpriteInfo> m_manager = new Dictionary<string, SpriteInfo>()
         {
-            {"dirt_floor_tile",new SpriteInfo(0)},
-            {"character",new SpriteInfo(1)},
-            {"bomb",new SpriteInfo(2)},
-            {"wall",new SpriteInfo(3)},
-            {"explosion",new SpriteInfo(4)}
+            {"dirt_floor_tile",new SpriteInfo(0,1)},
+            {"character",new SpriteInfo(1,2)},
+            {"bomb",new SpriteInfo(2,1)},
+            {"wall",new SpriteInfo(3,1)},
+            {"explosion",new SpriteInfo(4,1)}
         };
         public static SpriteInfo GetSpriteInfo(string spriteName)
         {
