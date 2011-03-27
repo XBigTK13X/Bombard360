@@ -13,6 +13,7 @@ namespace Bombard360
         EXPLOSION,
         BOMB,
         DIRT_FLOOR,
-        CRATE
+        CRATE,
+        POWERUP
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Bombard360.Tiles;
 
 namespace Bombard360
 {
@@ -19,6 +20,8 @@ namespace Bombard360
         private Wall m_wall = null;
         private Vector2 m_position;
         private ContentManager m_assetHandler;
+        private Crate m_crate;
+        private Powerup m_powerup;
 
         public BoardTile(int gridColumn, int gridRow)
         {
@@ -77,6 +80,10 @@ namespace Bombard360
                         m_wall = (Wall)component;
                         m_drawableComponents.Add(m_wall);
                         break;
+                    case SpriteType.CRATE:
+                        m_crate = (Crate)component;
+                        m_drawableComponents.Add(m_crate);
+                        break;
                     default:
                         throw new Exception("An unhandled type was detected in BoardTile.");
                 }
@@ -107,6 +114,12 @@ namespace Bombard360
                     break;
                 case SpriteType.WALL:
                     m_drawableComponents.Remove(m_wall);
+                    break;
+                case SpriteType.CRATE:
+                    m_drawableComponents.Remove(m_crate);
+                    break;
+                case SpriteType.POWERUP:
+                    m_drawableComponents.Remove(m_powerup);
                     break;
                 default:
                     throw new Exception("An unhandled type was detected in BoardTile.");

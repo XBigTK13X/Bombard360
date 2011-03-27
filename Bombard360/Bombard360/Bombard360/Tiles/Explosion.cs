@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Bombard360
+namespace Bombard360.Tiles
 {
     class Explosion:GameplayObject
     {

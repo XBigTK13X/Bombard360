@@ -110,25 +110,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AIManager.cs" />
-    <Compile Include="AnimatedTexture.cs" />
-    <Compile Include="BoardManager.cs" />
-    <Compile Include="BoardTile.cs" />
-    <Compile Include="Bomb.cs" />
-    <Compile Include="EnvironmentTile.cs" />
-    <Compile Include="Explosion.cs" />
-    <Compile Include="GameplayState.cs" />
-    <Compile Include="InputManager.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="SpriteType.cs" />
-    <Compile Include="State.cs" />
+    <Compile Include="Management\AIManager.cs" />
+    <Compile Include="SpriteHandling\AnimatedTexture.cs" />
+    <Compile Include="Management\BoardManager.cs" />
+    <Compile Include="Management\BoardTile.cs" />
+    <Compile Include="Tiles\Bomb.cs" />
+    <Compile Include="Tiles\Crate.cs" />
+    <Compile Include="Tiles\EnvironmentTile.cs" />
+    <Compile Include="Tiles\Explosion.cs" />
+    <Compile Include="StateHandling\GameplayState.cs" />
+    <Compile Include="Management\InputManager.cs" />
+    <Compile Include="Tiles\Player.cs" />
+    <Compile Include="SpriteHandling\SpriteType.cs" />
+    <Compile Include="StateHandling\State.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="SpriteInfo.cs" />
-    <Compile Include="SpriteSheetManager.cs" />
-    <Compile Include="Wall.cs" />
-    <Compile Include="GameObject.cs" />
+    <Compile Include="SpriteHandling\SpriteInfo.cs" />
+    <Compile Include="SpriteHandling\SpriteSheetManager.cs" />
+    <Compile Include="Tiles\Wall.cs" />
+    <Compile Include="SpriteHandling\GameplayObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 
-namespace Bombard360
+namespace Bombard360.Tiles
 {
     class Bomb:GameplayObject
     {
