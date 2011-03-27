@@ -34,7 +34,6 @@ namespace Bombard360
         public void Update()
         {            
             BoardManager.Update();
-            BoardManager.CollectGarbage();
         }
         public override void LoadContent(ContentManager assetHandler)
         {

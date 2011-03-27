@@ -32,10 +32,13 @@ namespace Bombard360
         public static bool AddIfUnblocked(int gridColumn, int gridRow, XnaDrawable componentToAdd)
         {
             bool elementWasAdded = false;
-            if (!s_board[gridColumn,gridRow].IsBlocked())
+            if (BoardManager.IsCoordValid(gridColumn, gridRow))
             {
-                s_board[gridColumn,gridRow].Register(componentToAdd);
-                elementWasAdded = true;
+                if (!s_board[gridColumn, gridRow].IsBlocked())
+                {
+                    s_board[gridColumn, gridRow].Register(componentToAdd);
+                    elementWasAdded = true;
+                }
             }
             return elementWasAdded;
         }
@@ -45,7 +48,12 @@ namespace Bombard360
         }
         public static bool Add(int gridColumn,int gridRow, XnaDrawable componentToAdd)
         {
-            return s_board[gridColumn, gridRow].Register(componentToAdd);
+            bool isCoordValid = false;
+            if(BoardManager.IsCoordValid(gridColumn,gridRow))
+            {
+                 isCoordValid = s_board[gridColumn, gridRow].Register(componentToAdd);
+            }
+            return isCoordValid;
         }
         public static bool IsCellEmpty(int gridColumn, int gridRow)
         {
@@ -58,13 +66,6 @@ namespace Bombard360
                 return false;
             }            
             return true;
-        }
-        public static void CollectGarbage()
-        {
-            foreach (BoardTile tile in s_board)
-            {
-                tile.RemoveGarbage();
-            }
         }
         public static bool HasTileType(Vector2 location,string assetType)
         {
@@ -108,6 +109,10 @@ namespace Bombard360
                 output += tile.GetPosition().X + "," +tile.GetPosition().Y + " ::: "+tile.GetDebugLog()+"\n";
             }
             return output;
+        }
+        public static bool IsCoordValid(int gridColumns, int gridRows)
+        {
+            return (gridRows > -1 && gridRows < SpriteSheetManager.Rows && gridColumns > -1 && gridColumns < SpriteSheetManager.Columns);
         }
     }
 }

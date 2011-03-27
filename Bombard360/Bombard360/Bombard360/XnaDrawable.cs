@@ -10,17 +10,18 @@ namespace Bombard360
 {
     class XnaDrawable
     {
-        protected Vector2 m_position = Vector2.Zero;
-        private Texture2D m_graphic;
+
         private readonly string m_assetPath = @"GameplaySheet";
-        protected string m_assetName;
         private int m_currentFrame;
         private SpriteInfo m_spriteInfo;
         private Rectangle m_currentCell;
+        private Texture2D m_graphic;
+
         protected static readonly int COOLDOWN_TIME = 2;
         protected bool m_isActive = true;
         protected bool m_isBlocking = false;
-
+        protected string m_assetName;
+        protected Vector2 m_position = Vector2.Zero;
         protected SpriteBatch m_renderTarget;
         protected ContentManager m_contentManager;
 
@@ -53,8 +54,7 @@ namespace Bombard360
         }
         public void Move(int amountX, int amountY)
         {
-            if (m_position.Y + amountY > -1 && m_position.Y + amountY < SpriteSheetManager.Rows
-                && m_position.X + amountX > -1 && m_position.X + amountX < SpriteSheetManager.Columns)
+            if (BoardManager.IsCoordValid((int)m_position.X + amountX,(int)m_position.Y + amountY))
             {
                 m_position.Y += amountY;
                 m_position.X += amountX;

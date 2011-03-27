@@ -38,12 +38,14 @@ namespace Bombard360
         }
         private bool Contains(string assetType)
         {
-            var result = m_drawableComponents.Where(n => n.GetAssetType() == assetType);
-            if (result.Count()==0)
+            foreach (XnaDrawable item in m_drawableComponents)
             {
-                return false;
-            }
-            return true;
+                if (item.GetAssetType() == assetType)
+                {
+                    return true;
+                }
+            }            
+            return false;
         }
         public bool Register(XnaDrawable component)
         {
@@ -108,11 +110,18 @@ namespace Bombard360
 
         public void RemoveGarbage()
         {
-           //Console.Write(GetDebugLog());
-            var garbage = m_drawableComponents.Where(i => !i.IsActive());
-            if (garbage.Count() > 0)
+            //Console.Write(GetDebugLog());
+            var deadItems = new List<XnaDrawable>();
+            foreach (XnaDrawable item in m_drawableComponents)
             {
-               m_drawableComponents.RemoveAll(item => !item.IsActive());
+                if (!item.IsActive())
+                {
+                    deadItems.Add(item);
+                }
+            }
+            foreach (XnaDrawable item in deadItems)
+            {
+                m_drawableComponents.Remove(item);
             }
         }
 
@@ -198,7 +207,7 @@ namespace Bombard360
             string result = "";
             foreach (XnaDrawable item in m_drawableComponents)
             {
-                if(item.GetAssetType().Contains("explosion"))
+                if(item.GetAssetType()=="explosion"||item.GetAssetType()=="bomb")
                     result += item.GetAssetType() + ",";
             }
             if (result != "")
