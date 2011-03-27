@@ -110,6 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIManager.cs" />
     <Compile Include="AnimatedTexture.cs" />
     <Compile Include="BoardManager.cs" />
     <Compile Include="BoardTile.cs" />

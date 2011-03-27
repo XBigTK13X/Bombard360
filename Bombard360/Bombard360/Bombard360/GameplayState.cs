@@ -29,6 +29,7 @@ namespace Bombard360
             {
                 BoardManager.Add(new Wall(pair.Key, pair.Value));
             }
+            BoardManager.Add(new Player(10, 10, -1, false));
             BoardManager.Add(new Player(0, 0, 0, true));
         }
         public void Update()

@@ -26,6 +26,7 @@ namespace Bombard360
             m_isHuman = isHuman;
             m_playerIndex = playerId;
             m_isBlocking = true;
+            AIManager.Add(this);
         }
 
         public Player(int gridColumn, int gridRow, int playerId, bool isHuman)
@@ -69,6 +70,23 @@ namespace Bombard360
             {
                 SetSpriteInfo(SpriteSheetManager.GetSpriteInfo(SpriteType.PLAYER_STAND));
             }
+            MoveIfPossible(xVel, yVel);
+            if (InputManager.IsPlacingBomb(m_playerIndex))
+            {
+                PlaceBomb();
+            }
+            
+        }
+
+        private void RunAsComputer()
+        {
+            int xVel = ((AIManager.IsClosestPlayerWest(this)) ? -1 : 0) + ((AIManager.IsClosestPlayerEast(this)) ? 1 : 0);
+            int yVel = ((AIManager.IsClosestPlayerSouth(this)) ? 1 : 0) + ((AIManager.IsClosestPlayerNorth(this)) ? -1 : 0);
+            MoveIfPossible(xVel, yVel);
+        }
+
+        private void MoveIfPossible(int xVel, int yVel)
+        {
             m_moveCooldown--;
             if (m_moveCooldown <= 0&&(xVel!=0||yVel!=0))
             {
@@ -78,15 +96,6 @@ namespace Bombard360
                     m_moveCooldown = COOLDOWN_TIME;
                 }
             }
-            if (InputManager.IsPlacingBomb(m_playerIndex))
-            {
-                PlaceBomb();
-            }
-            
-        }
-        private void RunAsComputer()
-        {
-            Move(0, 1);
         }
 
         //Bomb management
