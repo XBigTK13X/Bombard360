@@ -12,6 +12,7 @@ namespace Bombard360
         WALL,
         EXPLOSION,
         BOMB,
-        DIRT_FLOOR
+        DIRT_FLOOR,
+        CRATE
     }
 }

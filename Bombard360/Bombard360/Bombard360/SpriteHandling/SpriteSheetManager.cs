@@ -17,7 +17,8 @@ namespace Bombard360
             {SpriteType.BOMB,new SpriteInfo(2,1)},
             {SpriteType.WALL,new SpriteInfo(3,1)},
             {SpriteType.EXPLOSION,new SpriteInfo(4,1)},
-            {SpriteType.PLAYER_STAND,new SpriteInfo(5,4)}
+            {SpriteType.PLAYER_STAND,new SpriteInfo(5,4)},
+            {SpriteType.CRATE,new SpriteInfo(6,1)}
         };
         public static SpriteInfo GetSpriteInfo(SpriteType spriteName)
         {
