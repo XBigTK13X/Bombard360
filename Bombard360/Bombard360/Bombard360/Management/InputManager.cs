@@ -11,7 +11,8 @@ namespace Bombard360
     {
         private static readonly List<string> m_playerInputDevices = new List<string>()
         {
-            "KEYBOARD"
+            "KEYBOARD",
+            "GAMEPAD"
         };
         private static readonly Dictionary<string, Keys> m_keyboardMapping = new Dictionary<string, Keys>()
         {

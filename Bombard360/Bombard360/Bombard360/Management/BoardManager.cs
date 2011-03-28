@@ -49,9 +49,16 @@ namespace Bombard360
                 BoardManager.Add(new Wall(mapWallsX[ii], mapWallsY[ii]));
             }
             BoardManager.Add(new Player(0, 0, 0, true));
-            BoardManager.Add(new Player(19, 19, 1, false));
+            //BoardManager.Add(new Player(8, 8, 1, false));
         }
-
+        public static bool AddExplosion(int gridColumn, int gridRow, int power, int range, int xVel, int yVel)
+        {
+            if (s_board[gridColumn,gridRow].CanPlaceBomb())
+            {
+                Add(new Explosion(gridRow, gridRow, power, range, xVel, yVel));
+            }
+            return false;
+        }
         public static bool AddIfUnblocked(GameplayObject component)
         {
             return AddIfUnblocked((int)component.GetPosition().X, (int)component.GetPosition().Y, component);

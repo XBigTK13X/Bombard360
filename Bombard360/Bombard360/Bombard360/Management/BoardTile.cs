@@ -47,6 +47,11 @@ namespace Bombard360
             }            
             return false;
         }
+        public bool CanPlaceBomb()
+        {
+            return !Contains(SpriteType.WALL);
+        }
+
         public bool Register(GameplayObject component)
         {
             if (!Contains(component.GetAssetType()))
@@ -70,8 +75,11 @@ namespace Bombard360
                         m_drawableComponents.Add(m_environmentTile);
                         break;
                     case SpriteType.EXPLOSION:
-                        m_explosion = (Explosion)component;
-                        m_drawableComponents.Add(m_explosion);
+                        if (!IsTypeRegistered(SpriteType.WALL))
+                        {
+                            m_explosion = (Explosion)component;
+                            m_drawableComponents.Add(m_explosion);
+                        }
                         break;
                     case SpriteType.WALL:
                         m_wall = (Wall)component;

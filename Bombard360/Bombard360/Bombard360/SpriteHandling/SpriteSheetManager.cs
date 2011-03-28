@@ -8,8 +8,8 @@ namespace Bombard360
 {
     class SpriteSheetManager
     {
-        public static readonly int Columns = 20;
-        public static readonly int Rows = 20;
+        public static readonly int Columns = 15;
+        public static readonly int Rows = 15;
         private static Dictionary<SpriteType, SpriteInfo> m_manager = new Dictionary<SpriteType, SpriteInfo>()
         {
             {SpriteType.DIRT_FLOOR,new SpriteInfo(0,1)},

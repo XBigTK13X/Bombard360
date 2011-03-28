@@ -15,10 +15,7 @@ namespace Bombard360.Tiles
         {
             if (range-- > 2)
             {
-                //if(!BoardManager.HasTileType(gridColumn,gridColumn,SpriteType.WALL))
-                //{
-                 //   BoardManager.Add(new Explosion(gridColumn+spreadXVel, gridRow+spreadYVel, power, range, spreadXVel, spreadYVel));
-               // }
+                BoardManager.AddExplosion(gridColumn + spreadXVel, gridRow + spreadYVel, power, range, spreadXVel, spreadYVel);
             }
             Initialize(gridColumn, gridRow, SpriteType.EXPLOSION);
             m_power = power;
