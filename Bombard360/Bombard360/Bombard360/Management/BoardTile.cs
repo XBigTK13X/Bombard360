@@ -30,20 +30,17 @@ namespace Bombard360
 
         public bool IsTypeRegistered(SpriteType type)
         {
-            foreach (GameplayObject element in m_drawableComponents)
+            if (m_drawableComponents.Count() == 0)
             {
-                if (type == element.GetAssetType())
-                {
-                    return true;
-                }
+                return false;
             }
-            return false;
+            return Contains(type);
         }
         private bool Contains(SpriteType assetType)
         {
             foreach (GameplayObject item in m_drawableComponents)
             {
-                if (item.GetAssetType() == assetType)
+                if (item.GetAssetType() == assetType && item.IsActive())
                 {
                     return true;
                 }
@@ -103,27 +100,35 @@ namespace Bombard360
             {
                 case SpriteType.BOMB:
                     m_drawableComponents.Remove(m_bomb);
+                    m_bomb = null;
                     break;
                 case SpriteType.PLAYER_WALK:
                     m_drawableComponents.Remove(m_player);
+                    m_player = null;
                     break;
                 case SpriteType.PLAYER_STAND:
                     m_drawableComponents.Remove(m_player);
+                    m_player = null;
                     break;
                 case SpriteType.DIRT_FLOOR:
                     m_drawableComponents.Remove(m_environmentTile);
+                    m_environmentTile = null;
                     break;
                 case SpriteType.EXPLOSION:
                     m_drawableComponents.Remove(m_explosion);
+                    m_explosion = null;
                     break;
                 case SpriteType.WALL:
                     m_drawableComponents.Remove(m_wall);
+                    m_wall = null;
                     break;
                 case SpriteType.CRATE:
                     m_drawableComponents.Remove(m_crate);
+                    m_crate = null;
                     break;
                 case SpriteType.POWERUP:
                     m_drawableComponents.Remove(m_powerup);
+                    m_powerup = null;
                     break;
                 default:
                     throw new Exception("An unhandled type was detected in BoardTile.");
@@ -134,18 +139,18 @@ namespace Bombard360
 
         public void RemoveGarbage()
         {
-            //Console.Write(GetDebugLog());
-            var deadItems = new List<GameplayObject>();
-            foreach (GameplayObject item in m_drawableComponents)
+            if (m_drawableComponents.Count() == 0)
             {
-                if (!item.IsActive())
-                {
-                    deadItems.Add(item);
-                }
+                return;
             }
-            foreach (GameplayObject item in deadItems)
+            //Console.Write(GetDebugLog());
+            for (int ii = 0; ii < m_drawableComponents.Count(); ii++)
             {
-                m_drawableComponents.Remove(item);
+                if (!m_drawableComponents[ii].IsActive())
+                {
+                    m_drawableComponents.Remove(m_drawableComponents[ii]);
+                    ii--;
+                }
             }
         }
 
@@ -165,7 +170,7 @@ namespace Bombard360
         {
             foreach (GameplayObject item in m_drawableComponents)
             {
-                if (item.GetAssetType() == type)
+                if (item.GetAssetType() == type && item.IsActive())
                 {
                     return item;
                 }
@@ -178,26 +183,15 @@ namespace Bombard360
             {
                 foreach (GameplayObject item in m_drawableComponents)
                 {
-                    if (item.GetPosition().X != m_position.X || item.GetPosition().Y != m_position.Y)
+                    if(item.GetAssetType()==SpriteType.PLAYER_WALK || item.GetAssetType()==SpriteType.PLAYER_STAND)
                     {
-                        switch (item.GetAssetType())
+                        if (item.GetPosition().X != m_position.X || item.GetPosition().Y != m_position.Y)
                         {
-                            case SpriteType.PLAYER_WALK:
-                                BoardManager.Add((Player)item);
-                                Unregister((Player)item);
-                                return;
-                            case SpriteType.PLAYER_STAND:
-                                BoardManager.Add((Player)item);
-                                Unregister((Player)item);
-                                return;
-                            default:
-                                throw new Exception("Unhandled move scenario encountered!");
+                                    BoardManager.Add((Player)item);
+                                    Unregister((Player)item);    
                         }
                     }
-                    else
-                    {
-                        item.Update();
-                    }
+                    item.Update();
                 }
             }
             catch (Exception ignore)
@@ -209,7 +203,7 @@ namespace Bombard360
         {
             foreach (GameplayObject component in m_drawableComponents)
             {
-                component.LoadContent(m_assetHandler);
+               component.LoadContent(m_assetHandler);
                 component.Draw(target);
             }
         }

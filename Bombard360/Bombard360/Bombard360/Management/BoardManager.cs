@@ -29,6 +29,13 @@ namespace Bombard360
 
         public static void LoadBoard()
         {
+            for (int ii = 0; ii < SpriteSheetManager.Columns; ii++)
+            {
+                for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
+                {
+                    BoardManager.Add(new EnvironmentTile(ii, jj, SpriteType.DIRT_FLOOR));
+                }
+            }
             List<int> mapWallsX = new List<int>(){2,2,2,2,2,3,4,5,6,7};
             List<int> mapWallsY = new List<int>(){3,4,5,6,7,3,3,3,3,3};
             List<int> crateX = new List<int>() { 1, 2 };
@@ -84,6 +91,10 @@ namespace Bombard360
                 return false;
             }            
             return true;
+        }
+        public static bool HasTileType(int gridColumn,int gridRow, SpriteType assetType)
+        {
+            return s_board[gridColumn, gridRow].IsTypeRegistered(assetType);
         }
         public static bool HasTileType(Vector2 location,SpriteType assetType)
         {

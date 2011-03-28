@@ -39,20 +39,11 @@ namespace Bombard360.Tiles
         private void Explode(int gridColumn, int gridRow)
         {
             m_owner.FreeBombCacheSlot();
-            List<KeyValuePair<int, int>> explosionPositions = new List<KeyValuePair<int, int>>();
-            for (int ii = 0; ii < m_range; ii++)
-            {
-                explosionPositions.Add(new KeyValuePair<int, int>(gridColumn + ii, gridRow));
-                explosionPositions.Add(new KeyValuePair<int, int>(gridColumn, gridRow + ii));
-                explosionPositions.Add(new KeyValuePair<int, int>(gridColumn - ii, gridRow));
-                explosionPositions.Add(new KeyValuePair<int, int>(gridColumn, gridRow - ii));
-            }
-            Explosion explosionToAdd = null;
-            foreach (KeyValuePair<int, int> pair in explosionPositions)
-            {
-                explosionToAdd = new Explosion(pair.Key, pair.Value, m_power);
-                BoardManager.Add(pair.Key, pair.Value, explosionToAdd);
-            }
+            BoardManager.Add(new Explosion(gridColumn, gridRow, m_power, 0, 0, 0));
+            BoardManager.Add(new Explosion(gridColumn+1, gridRow,m_power,m_range,1,0));
+            BoardManager.Add(new Explosion(gridColumn, gridRow+1, m_power, m_range, 0,  1));
+            BoardManager.Add(new Explosion(gridColumn - 1, gridRow, m_power, m_range, -1, 0));
+            BoardManager.Add(new Explosion(gridColumn, gridRow-1, m_power, m_range, 0, -1));
         }
     }
 }

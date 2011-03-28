@@ -11,8 +11,15 @@ namespace Bombard360.Tiles
         int m_explosionLife;
         int m_power;
 
-        public Explosion(int gridColumn, int gridRow, int power)
+        public Explosion(int gridColumn, int gridRow, int power,int range,int spreadXVel,int spreadYVel)
         {
+            if (range-- > 2)
+            {
+                //if(!BoardManager.HasTileType(gridColumn,gridColumn,SpriteType.WALL))
+                //{
+                 //   BoardManager.Add(new Explosion(gridColumn+spreadXVel, gridRow+spreadYVel, power, range, spreadXVel, spreadYVel));
+               // }
+            }
             Initialize(gridColumn, gridRow, SpriteType.EXPLOSION);
             m_power = power;
             m_explosionLife = MAX_EXPLOSION_LIFE;
