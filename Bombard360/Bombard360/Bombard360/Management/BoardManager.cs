@@ -17,13 +17,6 @@ namespace Bombard360
 
         public static void Initialize()
         {
-            for (int ii = 0; ii < SpriteSheetManager.Columns; ii++)
-            {
-                for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
-                {
-                    s_board[ii, jj] =  new BoardTile(ii,jj);
-                }
-            }
             LoadBoard();
         }
 
@@ -33,6 +26,7 @@ namespace Bombard360
             {
                 for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
                 {
+                    s_board[ii, jj] = new BoardTile(ii, jj);
                     BoardManager.Add(new EnvironmentTile(ii, jj, SpriteType.DIRT_FLOOR));
                 }
             }
@@ -49,7 +43,7 @@ namespace Bombard360
                 BoardManager.Add(new Wall(mapWallsX[ii], mapWallsY[ii]));
             }
             BoardManager.Add(new Player(0, 0, 0, true));
-            //BoardManager.Add(new Player(8, 8, 1, false));
+            BoardManager.Add(new Player(8, 8, 1, false));
         }
         public static bool AddExplosion(int gridColumn, int gridRow, int power, int range, int xVel, int yVel)
         {

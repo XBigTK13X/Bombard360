@@ -187,24 +187,20 @@ namespace Bombard360
         }
         public void Update()
         {
-            try
+            GameplayObject item = null;
+            for(int ii=0;ii<m_drawableComponents.Count();ii++)
             {
-                foreach (GameplayObject item in m_drawableComponents)
+                item = m_drawableComponents[ii];
+                if(item.GetAssetType()==SpriteType.PLAYER_WALK || item.GetAssetType()==SpriteType.PLAYER_STAND)
                 {
-                    if(item.GetAssetType()==SpriteType.PLAYER_WALK || item.GetAssetType()==SpriteType.PLAYER_STAND)
+                    if (item.GetPosition().X != m_position.X || item.GetPosition().Y != m_position.Y)
                     {
-                        if (item.GetPosition().X != m_position.X || item.GetPosition().Y != m_position.Y)
-                        {
-                                    BoardManager.Add((Player)item);
-                                    Unregister((Player)item);    
-                        }
+                        BoardManager.Add((Player)item);
+                        Unregister((Player)item);
+                        ii--;
                     }
-                    item.Update();
                 }
-            }
-            catch (Exception ignore)
-            {
-                return;
+                item.Update();
             }
         }
         public void Draw(SpriteBatch target)

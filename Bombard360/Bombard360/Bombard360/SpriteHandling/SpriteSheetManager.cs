@@ -23,14 +23,7 @@ namespace Bombard360
         };
         public static SpriteInfo GetSpriteInfo(SpriteType spriteName)
         {
-            try
-            {
-                return m_manager[spriteName];
-            }
-            catch (KeyNotFoundException e)
-            {
-                throw e;
-            }
+            return m_manager[spriteName];
         }
     }
 }
