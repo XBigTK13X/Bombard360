@@ -39,11 +39,11 @@ namespace Bombard360.Tiles
         private void Explode(int gridColumn, int gridRow)
         {
             m_owner.FreeBombCacheSlot();
-            BoardManager.Add(new Explosion(gridColumn, gridRow, m_power, 0, 0, 0));
-            BoardManager.Add(new Explosion(gridColumn+1, gridRow,m_power,m_range,1,0));
-            BoardManager.Add(new Explosion(gridColumn, gridRow+1, m_power, m_range, 0,  1));
-            BoardManager.Add(new Explosion(gridColumn - 1, gridRow, m_power, m_range, -1, 0));
-            BoardManager.Add(new Explosion(gridColumn, gridRow-1, m_power, m_range, 0, -1));
+            BoardManager.AddExplosion(gridColumn, gridRow, m_power, 0, 0, 0);
+            BoardManager.AddExplosion(gridColumn+1, gridRow,m_power,m_range,1,0);
+            BoardManager.AddExplosion(gridColumn, gridRow+1, m_power, m_range, 0,  1);
+            BoardManager.AddExplosion(gridColumn - 1, gridRow, m_power, m_range, -1, 0);
+            BoardManager.AddExplosion(gridColumn, gridRow-1, m_power, m_range, 0, -1);
         }
     }
 }

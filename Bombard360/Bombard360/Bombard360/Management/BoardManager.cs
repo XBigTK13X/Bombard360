@@ -53,9 +53,12 @@ namespace Bombard360
         }
         public static bool AddExplosion(int gridColumn, int gridRow, int power, int range, int xVel, int yVel)
         {
-            if (s_board[gridColumn,gridRow].CanPlaceBomb())
+            if(IsCoordValid(gridColumn,gridRow))
             {
-                Add(new Explosion(gridRow, gridRow, power, range, xVel, yVel));
+                if (s_board[gridColumn,gridRow].CanPlaceBomb())
+                {
+                    Add(new Explosion(gridColumn, gridRow, power, range, xVel, yVel));
+                }
             }
             return false;
         }
@@ -103,18 +106,22 @@ namespace Bombard360
         {
             return s_board[gridColumn, gridRow].IsTypeRegistered(assetType);
         }
+
         public static bool HasTileType(Vector2 location,SpriteType assetType)
         {
             return s_board[(int)location.X, (int)location.Y].IsTypeRegistered(assetType);
         }
+
         public static GameplayObject GetTileType(Vector2 location, SpriteType type)
         {
            return s_board[(int)location.X,(int)location.Y].GetTileOfType(type);
         }
+
         public static Explosion GetExplosionInstance(Vector2 location)
         {
             return (Explosion)GetTileType(location, SpriteType.EXPLOSION);
         }
+
         public static void Update()
         {
             foreach (BoardTile tile in s_board)
