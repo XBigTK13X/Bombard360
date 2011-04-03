@@ -111,6 +111,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Management\AIManager.cs" />
+    <Compile Include="Powerups\BombCachePowerup.cs" />
+    <Compile Include="Powerups\BombPowerPowerup.cs" />
+    <Compile Include="Powerups\IPowerupEffect.cs" />
+    <Compile Include="Powerups\PlayerHealthPowerup.cs" />
+    <Compile Include="Powerups\SpeedPowerup.cs" />
     <Compile Include="SpriteHandling\AnimatedTexture.cs" />
     <Compile Include="Management\BoardManager.cs" />
     <Compile Include="Management\BoardTile.cs" />

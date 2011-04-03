@@ -12,7 +12,7 @@ namespace Bombard360
     {
         private AnimatedTexture m_graphic = new AnimatedTexture(); 
         
-        protected static readonly int COOLDOWN_TIME = 6;
+        protected static int COOLDOWN_TIME = 6;
         protected bool m_isActive = true;
         protected bool m_isBlocking = false;
         protected SpriteType m_assetName;

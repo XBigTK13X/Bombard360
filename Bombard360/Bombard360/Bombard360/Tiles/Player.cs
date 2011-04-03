@@ -8,15 +8,15 @@ namespace Bombard360
 {
     class Player:GameplayObject
     {
-        public static readonly SpriteType[] SPRITE_TYPES = { SpriteType.PLAYER_STAND, SpriteType.PLAYER_WALK };
-
         private bool m_isHuman;
         private float m_health = 100;
         private bool m_isAlive;
         private int m_playerIndex;
         private int m_moveCooldown = COOLDOWN_TIME;
-        
-        private readonly int MAX_BOMB_CACHE_SIZE = 10;
+
+        private List<IPowerupEffect> m_powerups = new List<IPowerupEffect>();
+
+        private int MAX_BOMB_CACHE_SIZE = 10;
         private int m_currentBombCacheSize = 0;
         private int m_bombPower = 100;
         private int m_bombRange = 3;
@@ -48,6 +48,10 @@ namespace Bombard360
             else
             {
                 RunAsComputer();
+            }
+            foreach (IPowerupEffect power in m_powerups)
+            {
+                power.Update(this);
             }
             CheckForDamage();
         }
@@ -126,6 +130,34 @@ namespace Bombard360
             {
                 m_currentBombCacheSize--;
             }
+        }
+
+        //Powerup Management
+        public void AddPowerup(IPowerupEffect power)
+        {
+            m_powerups.Add(power);
+            power.Apply(this);
+        }
+
+        public void ModifySpeed(int amount)
+        {
+            COOLDOWN_TIME -= amount;
+            COOLDOWN_TIME = (COOLDOWN_TIME < 2) ? 2 : COOLDOWN_TIME;
+        }
+        public void ModifyBombCache(int amount)
+        {
+            MAX_BOMB_CACHE_SIZE += amount;
+            MAX_BOMB_CACHE_SIZE = (MAX_BOMB_CACHE_SIZE < 1) ? 1 : MAX_BOMB_CACHE_SIZE;
+        }
+        public void ModifyBombPower(int amount)
+        {
+            m_bombPower += amount*100;
+            m_bombPower = (m_bombPower < 100) ? 100 : m_bombPower;
+        }
+        public void ModifyHealth(int amount)
+        {
+            m_health += amount*100;
+            m_health = (m_health < 100) ? 100 : m_health;
         }
     }
 }
