@@ -10,13 +10,13 @@ namespace Bombard360
 {
     class GameplayObject
     {
-        private AnimatedTexture m_graphic = new AnimatedTexture(); 
+        protected AnimatedTexture m_graphic = new AnimatedTexture(); 
         
         protected static int COOLDOWN_TIME = 6;
         protected bool m_isActive = true;
         protected bool m_isBlocking = false;
         protected SpriteType m_assetName;
-        protected Vector2 m_position = Vector2.Zero;
+        
 
         //Load the texture for the sprite using the Content Pipeline
         public void LoadContent(ContentManager assetHandler)
@@ -26,23 +26,22 @@ namespace Bombard360
         //Draw the sprite to the screen
         public void Draw(SpriteBatch target)
         {
-            m_graphic.Draw(target,m_position);
+            m_graphic.Draw(target);
         }
 
         protected void Initialize(int gridColumn, int gridRow, SpriteType type)
         {
             m_assetName = type;
-            m_position = new Vector2(gridColumn, gridRow);
+            m_graphic.SetPosition(gridColumn,gridRow);
         }
         public virtual void Update()
         {
         }
         public void Move(int amountX, int amountY)
         {
-            if (BoardManager.IsCoordValid((int)m_position.X + amountX,(int)m_position.Y + amountY))
+            if (BoardManager.IsCoordValid((int)m_graphic.GetPosition().X + amountX,(int)m_graphic.GetPosition().Y + amountY))
             {
-                m_position.Y += amountY;
-                m_position.X += amountX;
+                m_graphic.SetPosition((int)m_graphic.GetPosition().X + amountX, (int)m_graphic.GetPosition().Y + amountY);
             }
         }
         public bool IsActive()
@@ -63,7 +62,7 @@ namespace Bombard360
         }
         public Vector2 GetPosition()
         {
-            return m_position;
+            return m_graphic.GetPosition();
         }
         public bool IsGraphicLoaded()
         {

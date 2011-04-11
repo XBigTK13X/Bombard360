@@ -110,7 +110,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
+    <Compile Include="MainMenu.cs" />
+    <Compile Include="Management\AnimatedTextureFactory.cs" />
+    <Compile Include="Management\GameplayObjectFactory.cs" />
+    <Compile Include="Management\LevelEditorManager.cs" />
     <Compile Include="Management\AIManager.cs" />
+    <Compile Include="Management\StateManager.cs" />
+    <Compile Include="MenuButton.cs" />
     <Compile Include="Powerups\BombCachePowerup.cs" />
     <Compile Include="Powerups\BombPowerPowerup.cs" />
     <Compile Include="Powerups\IPowerupEffect.cs" />
@@ -119,12 +126,17 @@
     <Compile Include="SpriteHandling\AnimatedTexture.cs" />
     <Compile Include="Management\BoardManager.cs" />
     <Compile Include="Management\BoardTile.cs" />
+    <Compile Include="StateHandling\MainMenuState.cs" />
+    <Compile Include="StateHandling\LevelEditorState.cs" />
     <Compile Include="Tiles\Bomb.cs" />
+    <Compile Include="Tiles\ComputerPlayer.cs" />
     <Compile Include="Tiles\Crate.cs" />
+    <Compile Include="Tiles\Cursor.cs" />
     <Compile Include="Tiles\EnvironmentTile.cs" />
     <Compile Include="Tiles\Explosion.cs" />
     <Compile Include="StateHandling\GameplayState.cs" />
     <Compile Include="Management\InputManager.cs" />
+    <Compile Include="Tiles\HumanPlayer.cs" />
     <Compile Include="Tiles\Player.cs" />
     <Compile Include="SpriteHandling\SpriteType.cs" />
     <Compile Include="StateHandling\State.cs" />
@@ -174,7 +186,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

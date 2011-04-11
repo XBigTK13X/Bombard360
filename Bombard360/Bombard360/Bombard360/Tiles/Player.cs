@@ -8,10 +8,7 @@ namespace Bombard360
 {
     class Player:GameplayObject
     {
-        private bool m_isHuman;
         private float m_health = 100;
-        private bool m_isAlive;
-        private int m_playerIndex;
         private int m_moveCooldown = COOLDOWN_TIME;
 
         private List<IPowerupEffect> m_powerups = new List<IPowerupEffect>();
@@ -21,104 +18,66 @@ namespace Bombard360
         private int m_bombPower = 100;
         private int m_bombRange = 3;
 
-        private int m_AI_SPEED = COOLDOWN_TIME * 2;
-        private int m_aiCooldown;
-
-        private void Setup(int gridColumn, int gridRow, int playerId, bool isHuman)
+        private void Setup(int gridColumn, int gridRow)
         {
             Initialize(gridColumn, gridRow,SpriteType.PLAYER_STAND);
-            m_isHuman = isHuman;
-            m_playerIndex = playerId;
             m_isBlocking = true;
-            m_aiCooldown = m_AI_SPEED;
+            
             AIManager.Add(this);
         }
 
-        public Player(int gridColumn, int gridRow, int playerId, bool isHuman)
+        public Player(int gridColumn, int gridRow)
         {
-            Setup(gridColumn, gridRow, playerId, isHuman);
+            Setup(gridColumn, gridRow);
         }
         public override void Update()
         {
             base.Update();
-            if (m_isHuman)
-            {
-                RunAsHuman();
-            }
-            else
-            {
-                RunAsComputer();
-            }
+            Run();
             foreach (IPowerupEffect power in m_powerups)
             {
                 power.Update(this);
             }
             CheckForDamage();
         }
+        public virtual void Run() { }
+
         private void CheckForDamage()
         {
-            if (BoardManager.HasTileType(m_position, SpriteType.EXPLOSION))
+            if (BoardManager.HasTileType(m_graphic.GetPosition(), SpriteType.EXPLOSION))
             {
-                m_health -= BoardManager.GetExplosionInstance(m_position).GetPower();
+                m_health -= BoardManager.GetExplosionInstance(m_graphic.GetPosition()).GetPower();
             }
             if (m_health <= 0)
             {
-                m_isAlive = false;
                 m_isActive = false;
             }
         }
-        private void RunAsHuman()
-        {
-            int yVel = ((InputManager.IsMovingLeft(m_playerIndex)) ? -1 : 0) + ((InputManager.IsMovingRight(m_playerIndex)) ? 1 : 0);
-            int xVel = ((InputManager.IsMovingDown(m_playerIndex)) ? 1 : 0) + ((InputManager.IsMovingUp(m_playerIndex)) ? -1 : 0);
-            if ((xVel != 0 || yVel != 0))
-            {
-                SetSpriteInfo(SpriteSheetManager.GetSpriteInfo(SpriteType.PLAYER_WALK));
-            }
-            else
-            {
-                SetSpriteInfo(SpriteSheetManager.GetSpriteInfo(SpriteType.PLAYER_STAND));
-            }
-            MoveIfPossible(xVel, yVel);
-            if (InputManager.IsPlacingBomb(m_playerIndex))
-            {
-                PlaceBomb();
-            }
-            
-        }
 
-        private void RunAsComputer()
-        {
-            m_aiCooldown--;
-            if (m_aiCooldown <= 0)
-            {
-                int xVel = ((AIManager.IsClosestPlayerWest(this)) ? -1 : 0) + ((AIManager.IsClosestPlayerEast(this)) ? 1 : 0);
-                int yVel = ((AIManager.IsClosestPlayerSouth(this)) ? 1 : 0) + ((AIManager.IsClosestPlayerNorth(this)) ? -1 : 0);
-                MoveIfPossible(xVel, yVel);
-                m_aiCooldown = m_AI_SPEED;
-                PlaceBomb();
-            }
-        }
-
-        private void MoveIfPossible(int xVel, int yVel)
+        protected void MoveIfPossible(int xVel, int yVel)
         {
             m_moveCooldown--;
-            if (m_moveCooldown <= 0&&(xVel!=0||yVel!=0))
+            if ((xVel != 0 || yVel != 0) && m_moveCooldown <= 0)
             {
-                if(BoardManager.IsCellEmpty((int)m_position.X+xVel,(int)m_position.Y+yVel))
+                SetSpriteInfo(SpriteSheetManager.GetSpriteInfo(SpriteType.PLAYER_WALK));
+                if (BoardManager.IsCellEmpty((int)m_graphic.GetPosition().X + xVel, (int)m_graphic.GetPosition().Y + yVel))
                 {
                     Move(xVel, yVel);
                     m_moveCooldown = COOLDOWN_TIME;
                 }
             }
+            else
+            {
+                SetSpriteInfo(SpriteSheetManager.GetSpriteInfo(SpriteType.PLAYER_STAND));
+            }
         }
 
         //Bomb management
-        private void PlaceBomb()
+        protected void PlaceBomb()
         {
             if (MAX_BOMB_CACHE_SIZE > m_currentBombCacheSize)
             {
-                if (BoardManager.Add(new Bomb((int)m_position.X, (int)m_position.Y, this, m_bombPower, m_bombRange)))
+                if (BoardManager.Add(new Bomb((int)m_graphic.GetPosition().X, (int)m_graphic.GetPosition().Y, this, m_bombPower, m_bombRange)))
                 {
                     m_currentBombCacheSize++;
                 }

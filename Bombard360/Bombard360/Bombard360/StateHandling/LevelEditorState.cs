@@ -9,23 +9,22 @@ using Bombard360.Tiles;
 
 namespace Bombard360
 {
-    class GameplayState:State
+    class LevelEditorState:State
     {
-        public GameplayState()
+        public LevelEditorState()
         {
-            BoardManager.Initialize();
         }
         public override void Update()
         {            
-            BoardManager.Update();
+          LevelEditorManager.Update();
         }
         public override void LoadContent(ContentManager assetHandler)
         {
-            BoardManager.LoadContent(assetHandler);
+           LevelEditorManager.LoadContent(assetHandler);
         }
         public override void Draw(SpriteBatch target)
         {
-            BoardManager.Draw(target);
+            LevelEditorManager.Draw(target);
         }
     }
 }

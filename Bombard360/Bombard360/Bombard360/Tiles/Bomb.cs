@@ -26,13 +26,13 @@ namespace Bombard360.Tiles
         public override void Update()
         {
             m_bombLife--;
-            if (BoardManager.HasTileType(m_position, SpriteType.EXPLOSION))
+            if (BoardManager.HasTileType(m_graphic.GetPosition(), SpriteType.EXPLOSION))
             {
                 m_bombLife = 0;
             }
             if (m_bombLife <= 0&&m_isActive)
             {
-                Explode((int)m_position.X,(int)m_position.Y);
+                Explode((int)m_graphic.GetPosition().X,(int)m_graphic.GetPosition().Y);
                 m_isActive = false;
             }
         }

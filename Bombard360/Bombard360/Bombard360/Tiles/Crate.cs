@@ -20,9 +20,9 @@ namespace Bombard360.Tiles
         {
             if (m_isActive)
             {
-                if (BoardManager.HasTileType(m_position, SpriteType.EXPLOSION))
+                if (BoardManager.HasTileType(m_graphic.GetPosition(), SpriteType.EXPLOSION))
                 {
-                    m_health -= BoardManager.GetExplosionInstance(m_position).GetPower();
+                    m_health -= BoardManager.GetExplosionInstance(m_graphic.GetPosition()).GetPower();
                     if (m_health <= 0)
                     {
                         RandomlyDropPowerup();
@@ -35,7 +35,7 @@ namespace Bombard360.Tiles
         {
             if (m_random.Next(0, 100)>(100-m_dropChancePercent))
             {
-                BoardManager.Add(new Powerup((int)m_position.X, (int)m_position.Y));
+                BoardManager.Add(new Powerup((int)m_graphic.GetPosition().X, (int)m_graphic.GetPosition().Y));
             }
             m_isActive = false;
         }

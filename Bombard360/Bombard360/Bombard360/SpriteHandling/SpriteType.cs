@@ -14,6 +14,10 @@ namespace Bombard360
         BOMB,
         DIRT_FLOOR,
         CRATE,
-        POWERUP
+        POWERUP,
+        EMPTY,
+        CURSOR,
+        PLAY_BUTTON,
+        EDIT_BUTTON
     }
 }

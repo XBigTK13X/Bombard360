@@ -28,5 +28,9 @@ namespace Bombard360
                 component.Draw(target);
             }
         }
+        public virtual void Update()
+        {
+            throw new Exception("State.Update() was not defined for the current state being used.");
+        }
     }
 }

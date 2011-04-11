@@ -9,23 +9,24 @@ using Bombard360.Tiles;
 
 namespace Bombard360
 {
-    class GameplayState:State
+    class MainMenuState:State
     {
-        public GameplayState()
+        private MainMenu m_menu;
+        public MainMenuState()
         {
-            BoardManager.Initialize();
+            m_menu = new MainMenu();
         }
         public override void Update()
         {            
-            BoardManager.Update();
+            m_menu.Update();
         }
         public override void LoadContent(ContentManager assetHandler)
         {
-            BoardManager.LoadContent(assetHandler);
+            m_menu.LoadContent(assetHandler);
         }
         public override void Draw(SpriteBatch target)
         {
-            BoardManager.Draw(target);
+            m_menu.Draw(target);
         }
     }
 }

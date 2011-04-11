@@ -20,7 +20,9 @@ namespace Bombard360
             {"MOVE_DOWN",Keys.Down},
             {"MOVE_RIGHT",Keys.Right},
             {"MOVE_LEFT",Keys.Left},
-            {"PLACE_BOMB",Keys.Space}
+            {"PLACE_BOMB",Keys.Space},
+            {"CONFIRM",Keys.Q},
+            {"MAIN_MENU",Keys.E}
         };
 
         private static readonly Dictionary<string, Buttons> m_gamePadMapping = new Dictionary<string, Buttons>()
@@ -29,7 +31,8 @@ namespace Bombard360
             {"MOVE_DOWN",Buttons.DPadDown},
             {"MOVE_RIGHT",Buttons.DPadRight},
             {"MOVE_LEFT",Buttons.DPadLeft},
-            {"PLACE_BOMB",Buttons.RightTrigger}
+            {"PLACE_BOMB",Buttons.RightTrigger},
+            {"CONFIRM",Buttons.LeftShoulder}
         };
 
         private static readonly List<PlayerIndex> m_playerIndex = new List<PlayerIndex>()
@@ -59,6 +62,14 @@ namespace Bombard360
         public static bool IsPlacingBomb(int playerIndex)
         {
             return IsCommandBeingExecuted("PLACE_BOMB", playerIndex);
+        }
+        public static bool IsConfirming(int playerIndex)
+        {
+            return IsCommandBeingExecuted("CONFIRM", playerIndex);
+        }
+        public static bool IsGoingToMainMenu(int playerIndex)
+        {
+            return IsCommandBeingExecuted("MAIN_MENU",playerIndex);
         }
         private static bool IsCommandBeingExecuted(string command,int playerIndex)
         {

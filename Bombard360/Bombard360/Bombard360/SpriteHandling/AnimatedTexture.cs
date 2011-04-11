@@ -21,6 +21,8 @@ namespace Bombard360
         private Texture2D m_graphic;
         private int m_animationTimer;
 
+        protected Vector2 m_position = Vector2.Zero;
+
         public void LoadContent(ContentManager assetHandler,SpriteType assetName)
         {
             if (m_contentManager == null)
@@ -33,13 +35,13 @@ namespace Bombard360
             }
         }
 
-        public void Draw(SpriteBatch target,Vector2 position)
+        public void Draw(SpriteBatch target)
         {
             UpdateAnimation();
             m_renderTarget = target;
             target.Begin();
             m_currentCell = new Rectangle(m_currentFrame * m_spriteInfo.X, m_spriteInfo.SpriteIndex * m_spriteInfo.Y, m_spriteInfo.X, m_spriteInfo.Y);
-            Vector2 tempPosition = new Vector2(position.Y * SpriteInfo.Width, position.X * SpriteInfo.Height);
+            Vector2 tempPosition = new Vector2(m_position.Y * SpriteInfo.Width, m_position.X * SpriteInfo.Height);
             target.Draw(m_graphic, tempPosition, m_currentCell, Color.White);
             target.End();
         }
@@ -64,6 +66,17 @@ namespace Bombard360
                 m_spriteInfo = sprite;
                 m_currentFrame = 0;
             }
+        }
+
+        public Vector2 GetPosition()
+        {
+            return m_position;
+        }
+
+        public void SetPosition(int x, int y)
+        {
+            m_position.X = x;
+            m_position.Y = y;
         }
     }
 }

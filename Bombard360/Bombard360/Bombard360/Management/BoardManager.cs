@@ -11,8 +11,6 @@ namespace Bombard360
 {
     class BoardManager
     {
-        //private static Dictionary<KeyValuePair<int, int>, BoardTile> s_board = new Dictionary<KeyValuePair<int, int>, BoardTile>();
-
         private static BoardTile[,] s_board = new BoardTile[SpriteSheetManager.Columns, SpriteSheetManager.Rows];
 
         public static void Initialize()
@@ -42,8 +40,8 @@ namespace Bombard360
                 }
                 BoardManager.Add(new Wall(mapWallsX[ii], mapWallsY[ii]));
             }
-            BoardManager.Add(new Player(0, 0, 0, true));
-            BoardManager.Add(new Player(8, 8, 1, false));
+            BoardManager.Add(new HumanPlayer(0, 0, 0));
+            BoardManager.Add(new ComputerPlayer(8, 8));
         }
         public static bool AddExplosion(int gridColumn, int gridRow, int power, int range, int xVel, int yVel)
         {

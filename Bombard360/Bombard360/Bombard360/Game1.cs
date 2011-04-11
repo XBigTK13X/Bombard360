@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Bombard360.Management;
 
 namespace Bombard360
 {
@@ -18,7 +19,6 @@ namespace Bombard360
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        GameplayState game;
         private readonly int windowHeight = SpriteInfo.Height*SpriteSheetManager.Rows;
         private readonly int windowWidth = SpriteInfo.Width*SpriteSheetManager.Columns;
 
@@ -39,7 +39,7 @@ namespace Bombard360
         /// </summary>
         protected override void Initialize()
         {
-            game = new GameplayState();
+            StateManager.LoadState(new MainMenuState());
             base.Initialize();
         }
 
@@ -51,7 +51,7 @@ namespace Bombard360
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            game.LoadContent(this.Content);
+            StateManager.LoadContent(this.Content);
         }
 
         /// <summary>
@@ -73,8 +73,7 @@ namespace Bombard360
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            game.Update();
+            StateManager.Update();
             base.Update(gameTime);
         }
 
@@ -85,7 +84,7 @@ namespace Bombard360
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            game.Draw(spriteBatch);
+            StateManager.Draw(spriteBatch);
             base.Draw(gameTime);
         }
     }
