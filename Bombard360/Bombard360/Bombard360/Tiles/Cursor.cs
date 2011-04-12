@@ -26,18 +26,18 @@ namespace Bombard360.Tiles
         } 
         public override void Update()
         {
-            int yVel = ((InputManager.IsMovingLeft(m_playerIndex)) ? -1 : 0) + ((InputManager.IsMovingRight(m_playerIndex)) ? 1 : 0);
-            int xVel = ((InputManager.IsMovingDown(m_playerIndex)) ? 1 : 0) + ((InputManager.IsMovingUp(m_playerIndex)) ? -1 : 0);
+            int yVel = ((InputManager.IsPressed(InputManager.Commands.MoveLeft, m_playerIndex)) ? -1 : 0) + ((InputManager.IsPressed(InputManager.Commands.MoveRight,m_playerIndex)) ? 1 : 0);
+            int xVel = ((InputManager.IsPressed(InputManager.Commands.MoveDown, m_playerIndex)) ? 1 : 0) + ((InputManager.IsPressed(InputManager.Commands.MoveUp, m_playerIndex)) ? -1 : 0);
             Move(xVel, yVel);
             m_cooldown--;
-            if (InputManager.IsPlacingBomb(m_playerIndex)&&m_cooldown<=0)
+            if (InputManager.IsPressed(InputManager.Commands.PlaceBomb,m_playerIndex)&&m_cooldown<=0)
             {
                 //Cycle through the sprites available, one at a time
                 m_blockIndex = (m_blockIndex + 1) % m_allowedBlocks.Count;
                 SetSpriteInfo(SpriteSheetManager.GetSpriteInfo(m_allowedBlocks[m_blockIndex]));
                 m_cooldown = COOLDOWN_TIME;
             }
-            if (InputManager.IsConfirming(m_playerIndex))
+            if (InputManager.IsPressed(InputManager.Commands.Confirm, m_playerIndex))
             {
                 if (m_blockIndex != 0)
                 {

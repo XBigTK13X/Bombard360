@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Bombard360.Tiles;
+using Bombard360.Management;
 
 namespace Bombard360
 {
@@ -15,34 +16,9 @@ namespace Bombard360
 
         public static void Initialize()
         {
-            LoadBoard();
+            s_board = ConvertTilemapToLevelData(SaveManager.Load());
         }
 
-        public static void LoadBoard()
-        {
-            for (int ii = 0; ii < SpriteSheetManager.Columns; ii++)
-            {
-                for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
-                {
-                    s_board[ii, jj] = new BoardTile(ii, jj);
-                    BoardManager.Add(new EnvironmentTile(ii, jj, SpriteType.DIRT_FLOOR));
-                }
-            }
-            List<int> mapWallsX = new List<int>(){2,2,2,2,2,3,4,5,6,7};
-            List<int> mapWallsY = new List<int>(){3,4,5,6,7,3,3,3,3,3};
-            List<int> crateX = new List<int>() { 1, 2 };
-            List<int> crateY = new List<int>() { 0, 0 };
-            for (int ii = 0; ii < mapWallsX.Count(); ii++)
-            {
-                if (ii < crateX.Count())
-                {
-                    BoardManager.Add(new Crate(crateX[ii], crateY[ii]));
-                }
-                BoardManager.Add(new Wall(mapWallsX[ii], mapWallsY[ii]));
-            }
-            BoardManager.Add(new HumanPlayer(0, 0, 0));
-            BoardManager.Add(new ComputerPlayer(8, 8));
-        }
         public static bool AddExplosion(int gridColumn, int gridRow, int power, int range, int xVel, int yVel)
         {
             if(IsCoordValid(gridColumn,gridRow))
@@ -148,6 +124,24 @@ namespace Bombard360
         public static bool IsCoordValid(int gridColumns, int gridRows)
         {
             return (gridRows > -1 && gridRows < SpriteSheetManager.Rows && gridColumns > -1 && gridColumns < SpriteSheetManager.Columns);
+        }
+        public static BoardTile[,] ConvertTilemapToLevelData(KeyValuePair<SpriteType[,],SpriteType> saveContents)
+        {
+            GameplayObjectFactory.ResetPlayerCount();
+            BoardTile[,] data = new BoardTile[SpriteSheetManager.Columns, SpriteSheetManager.Rows];
+            for (int ii = 0; ii < SpriteSheetManager.Columns; ii++)
+            {
+                for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
+                {
+                    data[ii, jj] = new BoardTile(ii, jj);
+                    data[ii, jj].Register(GameplayObjectFactory.Create(saveContents.Value, ii, jj));
+                    if (saveContents.Key[ii, jj] != SpriteType.EMPTY)
+                    {
+                        data[ii, jj].Register(GameplayObjectFactory.Create(saveContents.Key[ii, jj], ii, jj));
+                    }
+                }
+            }
+            return data;
         }
     }
 }

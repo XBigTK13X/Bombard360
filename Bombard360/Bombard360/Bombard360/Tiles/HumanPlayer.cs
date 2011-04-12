@@ -14,10 +14,10 @@ namespace Bombard360.Tiles
         }
         public override void Run()
         {
-            int yVel = ((InputManager.IsMovingLeft(m_playerIndex)) ? -1 : 0) + ((InputManager.IsMovingRight(m_playerIndex)) ? 1 : 0);
-            int xVel = ((InputManager.IsMovingDown(m_playerIndex)) ? 1 : 0) + ((InputManager.IsMovingUp(m_playerIndex)) ? -1 : 0);
+            int yVel = ((InputManager.IsPressed(InputManager.Commands.MoveLeft, m_playerIndex)) ? -1 : 0) + ((InputManager.IsPressed(InputManager.Commands.MoveRight, m_playerIndex)) ? 1 : 0);
+            int xVel = ((InputManager.IsPressed(InputManager.Commands.MoveDown, m_playerIndex)) ? 1 : 0) + ((InputManager.IsPressed(InputManager.Commands.MoveUp, m_playerIndex)) ? -1 : 0);
             MoveIfPossible(xVel, yVel);
-            if (InputManager.IsPlacingBomb(m_playerIndex))
+            if (InputManager.IsPressed(InputManager.Commands.PlaceBomb,m_playerIndex))
             {
                 PlaceBomb();
             }

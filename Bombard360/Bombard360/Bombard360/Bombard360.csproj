@@ -110,12 +110,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Board.cs" />
+    <Compile Include="LevelEditorBoard.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Management\AnimatedTextureFactory.cs" />
     <Compile Include="Management\GameplayObjectFactory.cs" />
     <Compile Include="Management\LevelEditorManager.cs" />
     <Compile Include="Management\AIManager.cs" />
+    <Compile Include="Management\SaveManager.cs" />
     <Compile Include="Management\StateManager.cs" />
     <Compile Include="MenuButton.cs" />
     <Compile Include="Powerups\BombCachePowerup.cs" />
@@ -185,6 +186,9 @@
       <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

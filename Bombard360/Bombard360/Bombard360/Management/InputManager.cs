@@ -9,20 +9,32 @@ namespace Bombard360
 {
     class InputManager
     {
+        public enum Commands
+        {
+            MoveUp,
+            MoveDown,
+            MoveLeft,
+            MoveRight,
+            Confirm,
+            MainMenu,
+            SaveFile,
+            PlaceBomb
+        }
         private static readonly List<string> m_playerInputDevices = new List<string>()
         {
             "KEYBOARD",
             "GAMEPAD"
         };
-        private static readonly Dictionary<string, Keys> m_keyboardMapping = new Dictionary<string, Keys>()
+        private static readonly Dictionary<Commands, Keys> m_keyboardMapping = new Dictionary<Commands, Keys>()
         {
-            {"MOVE_UP",Keys.Up},
-            {"MOVE_DOWN",Keys.Down},
-            {"MOVE_RIGHT",Keys.Right},
-            {"MOVE_LEFT",Keys.Left},
-            {"PLACE_BOMB",Keys.Space},
-            {"CONFIRM",Keys.Q},
-            {"MAIN_MENU",Keys.E}
+            {Commands.MoveUp,Keys.Up},
+            {Commands.MoveDown,Keys.Down},
+            {Commands.MoveRight,Keys.Right},
+            {Commands.MoveLeft,Keys.Left},
+            {Commands.PlaceBomb,Keys.Space},
+            {Commands.Confirm,Keys.Q},
+            {Commands.MainMenu,Keys.E},
+            {Commands.SaveFile,Keys.S}
         };
 
         private static readonly Dictionary<string, Buttons> m_gamePadMapping = new Dictionary<string, Buttons>()
@@ -43,35 +55,7 @@ namespace Bombard360
             PlayerIndex.Four
         };
 
-        public static bool IsMovingUp(int playerIndex)
-        {
-            return IsCommandBeingExecuted("MOVE_UP",playerIndex);
-        }
-        public static bool IsMovingDown(int playerIndex)
-        {
-            return IsCommandBeingExecuted("MOVE_DOWN",playerIndex);
-        }
-        public static bool IsMovingRight(int playerIndex)
-        {
-            return IsCommandBeingExecuted("MOVE_RIGHT",playerIndex);
-        }
-        public static bool IsMovingLeft(int playerIndex)
-        {
-            return IsCommandBeingExecuted("MOVE_LEFT", playerIndex);
-        }
-        public static bool IsPlacingBomb(int playerIndex)
-        {
-            return IsCommandBeingExecuted("PLACE_BOMB", playerIndex);
-        }
-        public static bool IsConfirming(int playerIndex)
-        {
-            return IsCommandBeingExecuted("CONFIRM", playerIndex);
-        }
-        public static bool IsGoingToMainMenu(int playerIndex)
-        {
-            return IsCommandBeingExecuted("MAIN_MENU",playerIndex);
-        }
-        private static bool IsCommandBeingExecuted(string command,int playerIndex)
+        public static bool IsPressed(Commands command,int playerIndex)
         {
             string inputMechanism = m_playerInputDevices[playerIndex];
             bool isInputActive = false;
@@ -81,7 +65,7 @@ namespace Bombard360
                     isInputActive = Keyboard.GetState().IsKeyDown(m_keyboardMapping[command]);
                     break;
                 case "GAMEPAD":
-                    isInputActive = GamePad.GetState(m_playerIndex[playerIndex]).IsButtonDown(m_gamePadMapping[command]);
+                    //isInputActive = GamePad.GetState(m_playerIndex[playerIndex]).IsButtonDown(m_gamePadMapping[command]);
                     break;
                 default:
                     throw new Exception("What were you smoking that brought up this error?");

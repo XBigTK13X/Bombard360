@@ -12,8 +12,9 @@ namespace Bombard360
         List<MenuButton> m_buttons = new List<MenuButton>();
         public MainMenu()
         {
-            m_buttons.Add(new MenuButton(new GameplayState(), SpriteType.PLAY_BUTTON,8,10));
+            
             m_buttons.Add(new MenuButton(new LevelEditorState(),SpriteType.EDIT_BUTTON,12,10));
+            m_buttons.Add(new MenuButton(new GameplayState(), SpriteType.PLAY_BUTTON,8,10));
         }
         public void Draw(SpriteBatch target)
         {
@@ -31,13 +32,13 @@ namespace Bombard360
         }
         public void Update()
         {
-            if (InputManager.IsMovingUp(0))
-            {
-                m_buttons[0].Activate();
-            }
-            if (InputManager.IsMovingDown(0))
+            if (InputManager.IsPressed(InputManager.Commands.MoveUp, 0))
             {
                 m_buttons[1].Activate();
+            }
+            if (InputManager.IsPressed(InputManager.Commands.MoveDown,0))
+            {
+                m_buttons[0].Activate();
             }
 
         }

@@ -22,8 +22,8 @@ namespace Bombard360
             {SpriteType.POWERUP,new SpriteInfo(7,1)},
             {SpriteType.EMPTY,new SpriteInfo(8,1)},
             {SpriteType.CURSOR,new SpriteInfo(9,1)},
-            {SpriteType.EDIT_BUTTON,new SpriteInfo(10,1)},
-            {SpriteType.PLAY_BUTTON,new SpriteInfo(11,1)}
+            {SpriteType.EDIT_BUTTON,new SpriteInfo(11,1)},
+            {SpriteType.PLAY_BUTTON,new SpriteInfo(10,1)}
         };
         public static SpriteInfo GetSpriteInfo(SpriteType spriteName)
         {

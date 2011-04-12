@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Bombard360.Tiles;
+using Bombard360.Management;
 
 namespace Bombard360
 {
@@ -21,6 +22,10 @@ namespace Bombard360
         static public void Update()
         {
             m_cursor.Update();
+            if (InputManager.IsPressed(InputManager.Commands.SaveFile, 0))
+            {
+                SaveManager.Append(m_board.GenerateSaveData());
+            }
         }
         static public void Draw(SpriteBatch target)
         {

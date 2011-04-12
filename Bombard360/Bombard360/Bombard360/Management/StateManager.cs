@@ -34,7 +34,7 @@ namespace Bombard360.Management
         static public void Update()
         {
             m_state.Update();
-            if (InputManager.IsGoingToMainMenu(0))
+            if (InputManager.IsPressed(InputManager.Commands.MainMenu,0))
             {
                 LoadState(new MainMenuState());
             }

@@ -57,23 +57,24 @@ namespace Bombard360
         {
             AnimatedTextureFactory.SetContentManager(assetHandler);
         }
-        public BoardTile[,] GenerateLevelData(int humanPlayers)
+        public void SetBackground(SpriteType type)
         {
-            BoardTile[,] data = new BoardTile[SpriteSheetManager.Columns, SpriteSheetManager.Rows];
+            m_backgroundTile = type;
+        }
+        public string GenerateSaveData()
+        {
+            string boardData = "-1,-1," + m_backgroundTile.ToString() + ",";
             for (int ii = 0; ii < SpriteSheetManager.Columns; ii++)
             {
                 for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
                 {
-                    data[ii, jj] = new BoardTile(ii, jj);
-                    data[ii,jj].Register(GameplayObjectFactory.Create(m_tileMap[ii,jj],ii,jj));
-                    data[ii, jj].Register(GameplayObjectFactory.Create(m_backgroundTile,ii,jj));
+                    if (m_tileMap[ii, jj] != SpriteType.EMPTY)
+                    {
+                        boardData += ii + "," + jj + "," + m_tileMap[ii, jj].ToString() + ",";
+                    }
                 }
             }
-            return data;
-        }
-        public void SetBackground(SpriteType type)
-        {
-            m_backgroundTile = type;
+            return boardData;
         }
     }
 }
