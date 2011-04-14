@@ -19,30 +19,33 @@ namespace Bombard360.Management
         {
             SpriteType[,] data = new SpriteType[SpriteSheetManager.Columns, SpriteSheetManager.Rows];
             SpriteType backgroundTile = SpriteType.EMPTY;
-            TextReader input = new StreamReader("save.dat");
-            string saveData = input.ReadLine();
-            string[] explodedSaveData = saveData.Split(',');
-            for (int ii = 0; ii < SpriteSheetManager.Columns; ii++)
+            if (File.Exists("save.dat"))
             {
-                for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
+                TextReader input = new StreamReader("save.dat");
+                string saveData = input.ReadLine();
+                string[] explodedSaveData = saveData.Split(',');
+                for (int ii = 0; ii < SpriteSheetManager.Columns; ii++)
                 {
-                    data[ii, jj] = SpriteType.EMPTY;
+                    for (int jj = 0; jj < SpriteSheetManager.Rows; jj++)
+                    {
+                        data[ii, jj] = SpriteType.EMPTY;
+                    }
                 }
-            }
-            for (int ii = 0; ii < explodedSaveData.Count()-1; ii+=3)
-            {
-                foreach (SpriteType item in Enum.GetValues(typeof(SpriteType)))
+                for (int ii = 0; ii < explodedSaveData.Count() - 1; ii += 3)
                 {
-                    if (item.ToString() == explodedSaveData[ii + 2])
+                    foreach (SpriteType item in Enum.GetValues(typeof(SpriteType)))
+                    {
+                        if (item.ToString() == explodedSaveData[ii + 2])
                         {
-                        if(int.Parse(explodedSaveData[ii])==-1)
-                        {
-                            backgroundTile=item;
-                        }
-                        else
-                        {
-                        
-                            data[int.Parse(explodedSaveData[ii]), int.Parse(explodedSaveData[ii + 1])] = item;
+                            if (int.Parse(explodedSaveData[ii]) == -1)
+                            {
+                                backgroundTile = item;
+                            }
+                            else
+                            {
+
+                                data[int.Parse(explodedSaveData[ii]), int.Parse(explodedSaveData[ii + 1])] = item;
+                            }
                         }
                     }
                 }

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Bombard360.LevelEditorBoard">
+    <Position X="11.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIQAgAAAAAAAAIgCAAAAICAAAAAAEAAAAQ=</HashCode>
+      <FileName>LevelEditorBoard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.MainMenu">
+    <Position X="11.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.BoardManager">
+    <Position X="8" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAcIgAACAAEAAwBAEAAAACAAQAAAAAgAAAAAAAAAAAQ=</HashCode>
+      <FileName>Management\BoardManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.LevelEditorManager">
+    <Position X="13.25" Y="6" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAEQAwAAAAAAAAAAAAAAAACAAAQAAAAQAAQ=</HashCode>
+      <FileName>Management\LevelEditorManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.MenuButton">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MenuButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.GameplayObject">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAABBAAKAAAwACEBAAAAAAAAAAAABAEBAACEAAAAQ=</HashCode>
+      <FileName>SpriteHandling\GameplayObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.GameplayState">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>StateHandling\GameplayState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.LevelEditorState">
+    <Position X="15.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>StateHandling\LevelEditorState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.MainMenuState">
+    <Position X="15.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>StateHandling\MainMenuState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.State">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>StateHandling\State.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.Management.AnimatedTextureFactory">
+    <Position X="15.25" Y="7" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAEAAAAAAQAAAAAA=</HashCode>
+      <FileName>Management\AnimatedTextureFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.Management.SaveManager">
+    <Position X="9.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Management\SaveManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bombard360.Management.StateManager">
+    <Position X="13.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAABAgAAAAAIAAAAAAAAAwAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Management\StateManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
